@@ -1,0 +1,127 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  MEDICO
+  ACADEMICO
+}
+
+enum EstadoBR {
+  AC
+  AL
+  AP
+  AM
+  BA
+  CE
+  DF
+  ES
+  GO
+  MA
+  MT
+  MS
+  MG
+  PA
+  PB
+  PR
+  PE
+  PI
+  RJ
+  RN
+  RS
+  RO
+  RR
+  SC
+  SP
+  SE
+  TO
+}
+
+model Usuario {
+  id                    Int       @id @default(autoincrement())
+  role                  Role
+  nome                  String
+  cpf                   String    @unique
+  email                 String    @unique
+  telefone              String?
+  endereco              String?
+  instituicao           String?
+  periodoFacul          String?
+  matricula             String?
+  uploadMatriculaUrl    String?
+  nascimento            DateTime
+  estado                EstadoBR?
+  criadoEm              DateTime  @default(now())
+  atualizadoEm          DateTime  @updatedAt
+  especialidadeDesejada String?
+  especialidade         String?
+  crm                   String?
+  estadoAtuacao         EstadoBR?
+  senhaHash             String
+
+  // Relacionamentos
+  pacientes  Paciente[]
+  relatorios Relatorio[]
+  remedios   Remedio[]
+
+  @@index([role])
+}
+
+model Paciente {
+  id           Int      @id @default(autoincrement())
+  nome         String
+  cpf          String   @unique
+  email        String?
+  telefone     String?
+  endereco     String?
+  status       String // Ex: "Estável", "Crítico", etc.
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  // Relacionamentos
+  medicoId   Int
+  medico     Usuario     @relation(fields: [medicoId], references: [id])
+  relatorios Relatorio[]
+  Remedio    Remedio[]
+}
+
+model Relatorio {
+  id           Int      @id @default(autoincrement())
+  titulo       String?
+  descricao    String? // Texto do laudo / observações
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  // Relacionamentos
+  pacienteId Int
+  paciente   Paciente @relation(fields: [pacienteId], references: [id])
+
+  medicoId Int
+  medico   Usuario @relation(fields: [medicoId], references: [id])
+
+  remedios Remedio[]
+}
+
+model Remedio {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  descricao String?
+  dose      String?
+  horarios  String?
+  criadoEm  DateTime @default(now())
+
+  // Relacionamentos
+  medicoId Int
+  medico   Usuario @relation(fields: [medicoId], references: [id])
+
+  pacienteId Int
+  paciente   Paciente @relation(fields: [pacienteId], references: [id])
+
+  relatorioId Int
+  relatorio   Relatorio @relation(fields: [relatorioId], references: [id])
+}

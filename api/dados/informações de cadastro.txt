@@ -1,0 +1,11 @@
+2 categorias de usuarios, medicos e academicos.
+Academicos: instituição, periodo da facul, nome, cpf, matricula
+endereço, telefone, e-mail. upload da matricula, nascimento
+(ser maior de 18 anos), especialidade desejada, senha, estado.
+
+Medicos: instituição, periodo da facul, nome, cpf, matricula
+endereço, telefone, e-mail. upload da matricula, nascimento
+(ser maior de 18 anos), especialidade, crm, senha, estado em
+que atua.
+
+Decidir como quer a senha.
