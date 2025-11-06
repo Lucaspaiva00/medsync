@@ -21,12 +21,12 @@ O sistema permite que **médicos** e **acadêmicos de medicina** cadastrem seus 
 
 ```mermaid
 erDiagram
-    USUARIO ||--o{ PACIENTE : "possui"
-    USUARIO ||--o{ RELATORIO : "cria"
-    USUARIO ||--o{ REMEDIO : "prescreve"
-    PACIENTE ||--o{ RELATORIO : "possui"
-    PACIENTE ||--o{ REMEDIO : "recebe"
-    RELATORIO ||--o{ REMEDIO : "contém"
+    USUARIO ||--o{ PACIENTE : "possui"}
+    USUARIO ||--o{ RELATORIO : "cria"}
+    USUARIO ||--o{ REMEDIO : "prescreve"}
+    PACIENTE ||--o{ RELATORIO : "possui"}
+    PACIENTE ||--o{ REMEDIO : "recebe"}
+    RELATORIO ||--o{ REMEDIO : "contém"}
 🧩 Tecnologias Utilizadas
 Node.js – Ambiente backend
 
