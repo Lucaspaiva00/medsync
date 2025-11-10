@@ -1,12 +1,11 @@
 body {
     font-family: "Poppins", sans-serif;
-    margin: 0;
     background-color: #f5f6f8;
+    margin: 0;
     color: #222;
 }
 
-/* Layout principal */
-.dashboard-container {
+.layout-container {
     display: flex;
     height: 100vh;
 }
@@ -15,7 +14,7 @@ body {
 .sidebar {
     background: #fff;
     border-right: 1px solid #e5e7eb;
-    width: 220px;
+    width: 230px;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
@@ -23,14 +22,11 @@ body {
 
 .sidebar h2 {
     font-size: 1.4rem;
-    font-weight: 600;
     margin-bottom: 2rem;
-    color: #000;
 }
 
 .brand-color {
     color: #0a7aff;
-    /* único destaque de cor */
 }
 
 .sidebar ul {
@@ -39,133 +35,153 @@ body {
     margin: 0;
 }
 
-.sidebar li {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    color: #333;
+.sidebar ul li {
     padding: 0.6rem 0.8rem;
     border-radius: 6px;
     transition: 0.2s;
-    cursor: pointer;
 }
 
-.sidebar li:hover {
-    background: rgba(10, 122, 255, 0.06);
-    color: #0a7aff;
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
 }
 
-.sidebar li.active {
+.sidebar ul li:hover,
+.sidebar ul li.active {
     background: rgba(10, 122, 255, 0.08);
-    color: #0a7aff;
-    font-weight: 500;
 }
 
-/* Conteúdo principal */
-.content {
+.sidebar ul li:hover a,
+.sidebar ul li.active a {
+    color: #0a7aff;
+}
+
+/* Main */
+.main-content {
     flex: 1;
     padding: 2rem;
-    background-color: #f9fafb;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Header */
-header {
+/* Topbar */
+.topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
-.search-input {
-    width: 50%;
-    padding: 0.6rem 1rem;
-    border: 1px solid #ccc;
+.select-input {
+    padding: 0.4rem 0.8rem;
     border-radius: 6px;
-    font-size: 0.95rem;
+    border: 1px solid #ccc;
+    font-size: 0.9rem;
+    margin-right: 0.6rem;
 }
 
-.user {
+.timer {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #0a7aff;
+}
+
+.user-menu {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     font-weight: 500;
-    color: #333;
 }
 
-.user i {
+.user-menu i {
     color: #0a7aff;
     font-size: 1.4rem;
 }
 
-/* Tabela de pacientes */
-.patient-list h3 {
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-    color: #000;
+/* Search bar */
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
 }
 
-.patient-list table {
-    width: 100%;
-    border-collapse: collapse;
+.search-input {
+    width: 80%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+/* Dashboard grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
     background: #fff;
     border-radius: 10px;
-    overflow: hidden;
+    padding: 1.5rem;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-.patient-list th,
-.patient-list td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid #f0f0f0;
+.card h3 {
+    color: #0a7aff;
+    margin-bottom: 1rem;
 }
 
-.patient-list th {
-    color: #555;
-    font-weight: 600;
+.card ul {
+    list-style: none;
+    padding: 0;
 }
 
-/* Status visual */
-.status {
-    border-radius: 12px;
-    padding: 0.4rem 0.8rem;
-    font-size: 0.85rem;
+.card ul li {
+    margin-bottom: 0.5rem;
+}
+
+/* Novo Template */
+.btn-new-template {
+    width: 100%;
+    padding: 0.9rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #0a7aff;
     color: #fff;
-    font-weight: 500;
-}
-
-.status.stable {
-    background-color: #29cc97;
-}
-
-.status.attention {
-    background-color: #ffb946;
-}
-
-.status.critical {
-    background-color: #f12b2c;
-}
-
-.sidebar li {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    color: #333;
-    padding: 0.6rem 0.8rem;
-    border-radius: 6px;
-    transition: 0.2s;
+    font-size: 1rem;
     cursor: pointer;
-    user-select: none;
+    transition: 0.2s;
 }
 
-.sidebar li:hover {
-    background: rgba(10, 122, 255, 0.06);
-    color: #0a7aff;
+.btn-new-template:hover {
+    background-color: #066cd3;
 }
 
-.sidebar li.active {
-    background: rgba(10, 122, 255, 0.08);
+/* Quick bar */
+.quick-bar {
+    width: 60px;
+    background: #fff;
+    border-left: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1rem;
+    gap: 1rem;
+}
+
+.quick-btn {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
     color: #0a7aff;
-    font-weight: 500;
+    transition: 0.2s;
+}
+
+.quick-btn:hover {
+    transform: scale(1.1);
 }
