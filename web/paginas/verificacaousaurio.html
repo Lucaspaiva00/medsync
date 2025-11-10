@@ -1,46 +1,58 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Verificação de Usuários - MedSync</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <title>Painel de Verificação - MedSync</title>
+  <link rel="stylesheet" href="../css/style-verificacao.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body class="admin-page">
 
-  <div class="admin-container">
-    <h2><i class="fas fa-user-check"></i> Verificação de Usuários</h2>
-    <p style="color:#6b7280;">Analise os documentos enviados e aprove ou recuse os cadastros pendentes.</p>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>Med<span>Sync</span></h2>
+      <ul>
+        <li class="active"><a href="../paginas/verificacaousaurio.html"><i class="fas fa-user-check"></i> Verificação</a></li>
+      </ul>
+    </aside>
 
-    <table class="admin-table">
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>Tipo</th>
-          <th>E-mail</th>
-          <th>Documento</th>
-          <th>Status</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody id="tabelaUsuarios">
-        <!-- Exemplo estático (depois você popula com dados do backend) -->
-        <tr>
-          <td>Lucas Silva</td>
-          <td>Acadêmico</td>
-          <td>lucas@exemplo.com</td>
-          <td><a href="#">comprovante.pdf</a></td>
-          <td>Pendente</td>
-          <td>
-            <button class="btn-admin approve">Aprovar</button>
-            <button class="btn-admin reject">Recusar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- Conteúdo principal -->
+    <main class="content">
+      <header>
+        <h3><i class="fas fa-user-shield"></i> Painel de Verificação de Usuários</h3>
+        <div class="user">Administrador (Aniel)</div>
+      </header>
+
+      <section class="verification-list">
+        <div class="filter-bar">
+          <input type="text" id="searchInput" placeholder="Buscar por nome...">
+          <select id="filterTipo">
+            <option value="Todos">Todos os tipos</option>
+            <option value="Médico">Médico</option>
+            <option value="Acadêmico">Acadêmico</option>
+          </select>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Tipo</th>
+              <th>Identificação</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaUsuarios"></tbody>
+        </table>
+      </section>
+    </main>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
   <script src="../js/verificacaousuario.js"></script>
 </body>
+
 </html>
