@@ -185,3 +185,585 @@ body {
 .quick-btn:hover {
     transform: scale(1.1);
 }
+
+/* --- PACIENTES --- */
+.table-container {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+    margin-top: 1rem;
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 0.9rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+}
+
+.styled-table th {
+    color: #333;
+    background: #f9fafc;
+    font-weight: 600;
+}
+
+.btn-small {
+    border: none;
+    padding: 0.4rem 0.7rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-small i {
+    margin-right: 0.4rem;
+}
+
+.btn-small.green {
+    background: #0a7aff;
+    color: #fff;
+}
+
+.btn-small.green:hover {
+    background: #066cd3;
+}
+
+.btn-small.gray {
+    background: #e5e7eb;
+    color: #333;
+}
+
+.btn-small.gray:hover {
+    background: #d4d6da;
+}
+
+/* --- CONSULTAS --- */
+.status.attention {
+    background: #fbbf24;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.status.stable {
+    background: #10b981;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.status.critical {
+    background: #ef4444;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+/* ===== RELATÓRIOS ===== */
+
+.relatorio-topbar {
+    align-items: center;
+}
+
+.paciente-label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+/* Grid principal: laudo + prescrição */
+.relatorio-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 2fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+@media (max-width: 992px) {
+    .relatorio-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.text-editor {
+    width: 100%;
+    min-height: 260px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    padding: 0.8rem;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    background: #f9fafb;
+}
+
+/* Form de medicamentos */
+.med-form-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.input-med {
+    padding: 0.45rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    font-size: 0.9rem;
+    background: #f9fafb;
+}
+
+/* Tabela de medicamentos */
+.med-table {
+    margin-top: 0.5rem;
+}
+
+.med-table td:last-child {
+    text-align: right;
+}
+
+.relatorio-actions {
+    margin-top: 2rem;
+}
+
+.relatorio-card h3,
+.prescricao-card h3 {
+    color: #2563eb;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.text-editor:focus,
+.input-med:focus {
+    border-color: #2563eb;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+/* ===== MEDICAMENTOS ===== */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content h3 {
+    margin-bottom: 1rem;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    margin-bottom: 0.8rem;
+}
+
+.modal-content input:focus {
+    border-color: #2563eb;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.btn-small.red {
+    background: #ef4444;
+    color: #fff;
+}
+
+/* ===== TELA ACADÊMICO (USER) ===== */
+
+.acad-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.7fr);
+    gap: 1.5rem;
+}
+
+@media (max-width: 992px) {
+    .acad-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.acad-dados {
+    margin: 0;
+}
+
+.acad-dados div {
+    margin-bottom: 0.6rem;
+}
+
+.acad-dados dt {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #6b7280;
+}
+
+.acad-dados dd {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #111827;
+}
+
+.status-linha {
+    margin-bottom: 0.8rem;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.status-badge.pendente {
+    background: #f59e0b;
+}
+
+.status-badge.verificado {
+    background: #10b981;
+}
+
+.status-badge.recusado {
+    background: #ef4444;
+}
+
+.status-badge.nao-enviado {
+    background: #6b7280;
+}
+
+.status-texto {
+    font-size: 0.9rem;
+    color: #374151;
+    margin-bottom: 1rem;
+}
+
+.status-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+}
+
+.status-nota {
+    display: block;
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+/* botões auxiliares */
+.btn-small.blue {
+    background: #2563eb;
+    color: #fff;
+}
+
+.btn-small.blue:hover {
+    background: #1d4ed8;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.3rem;
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.6rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 0.9rem;
+}
+
+.btn-primary {
+    display: block;
+    width: 100%;
+    padding: 0.9rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #0066ff;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.btn-primary:hover {
+    background-color: #0050cc;
+}
+
+
+/* ---------- PÁGINAS DE AUTENTICAÇÃO / VERIFICAÇÃO ---------- */
+
+/* Layout genérico de tela centralizada (login, onboarding, upload, aguardando) */
+.auth-page {
+    font-family: "Poppins", sans-serif;
+    background: #f4f6fb;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Cartão central padrão */
+.auth-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+}
+
+.auth-card h1,
+.auth-card h2 {
+    margin-bottom: 0.5rem;
+    color: #111827;
+}
+
+.brand-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.brand-name span {
+    color: #0066ff;
+}
+
+/* Inputs e botões padrão de auth */
+.auth-input {
+    width: 100%;
+    padding: 0.9rem;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    background: #ffffff;
+}
+
+.auth-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+/* Botão primário (mesmo estilo mental do btn-new-template) */
+.btn-primary {
+    width: 100%;
+    padding: 0.9rem;
+    border-radius: 8px;
+    border: none;
+    background: #0066ff;
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: #0050cc;
+}
+
+/* Onboarding: escolha de perfil */
+.role-options {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    justify-content: center;
+}
+
+.role-option {
+    flex: 1;
+    border-radius: 12px;
+    border: 2px solid #e5e7eb;
+    padding: 1.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.role-option i {
+    font-size: 2rem;
+    color: #0066ff;
+    margin-bottom: 0.5rem;
+}
+
+.role-option h4 {
+    margin: 0.3rem 0 0;
+}
+
+.role-option:hover {
+    border-color: #0066ff;
+    background: #f0f6ff;
+}
+
+/* Upload de documento */
+.upload-area {
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 2rem 1rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+    margin: 1.5rem 0;
+}
+
+.upload-area:hover {
+    border-color: #0066ff;
+    background: #f3f7ff;
+}
+
+.upload-area i {
+    font-size: 2.8rem;
+    color: #0066ff;
+    margin-bottom: 0.5rem;
+}
+
+/* Aguardando verificação */
+.wait-icon {
+    font-size: 3rem;
+    color: #f59e0b;
+    margin-bottom: 1rem;
+}
+
+/* Painel admin de verificação */
+.admin-page {
+    font-family: "Poppins", sans-serif;
+    background: #f4f6fb;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.admin-container {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.admin-container h2 {
+    margin-bottom: 0.5rem;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 0.9rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 0.95rem;
+}
+
+.admin-table th {
+    background: #f9fafb;
+    font-weight: 600;
+    color: #374151;
+}
+
+/* Botões admin */
+.btn-admin {
+    padding: 0.4rem 0.9rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-admin.approve {
+    background: #10b981;
+    color: #ffffff;
+}
+
+.btn-admin.reject {
+    background: #ef4444;
+    color: #ffffff;
+}
+
+/* ---------- FORMULÁRIO MULTIETAPAS ---------- */
+.form-step {
+    transition: all 0.3s ease;
+}
+
+.hidden {
+    display: none;
+}
+
+#etapaTitulo {
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+}
+
+.auth-input::placeholder {
+    color: #9ca3af;
+    font-size: 0.95rem;
+}
+
+select.auth-input {
+    background-color: #fff;
+    color: #374151;
+}

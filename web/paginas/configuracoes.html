@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações do Usuário - MedSync</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="layout-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Med<span class="brand-color">Sync</span></h2>
+            <ul>
+                <li><a href="home.html"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+                <li><a href="pacientes.html"><i class="fas fa-user"></i> Pacientes</a></li>
+                <li><a href="consultas.html"><i class="fas fa-calendar-alt"></i> Consultas</a></li>
+                <li><a href="relatorios.html"><i class="fas fa-file-medical"></i> Relatórios</a></li>
+                <li><a href="medicamentos.html"><i class="fas fa-pills"></i> Medicamentos</a></li>
+                <li><a href="academicos.html"><i class="fas fa-graduation-cap"></i> Acadêmicos</a></li>
+                <li class="active"><a href="configuracoes.html"><i class="fas fa-cogs"></i> Configurações</a></li>
+            </ul>
+        </aside>
+
+        <!-- Conteúdo principal -->
+        <main class="main-content">
+            <header class="topbar">
+                <h2><i class="fas fa-cogs"></i> Configurações do Sistema</h2>
+            </header>
+
+            <section class="page-content">
+
+                <!-- Dados básicos -->
+                <div class="card">
+                    <h3>👤 Perfil do Usuário</h3>
+                    <div class="form-group">
+                        <label>Nome completo</label>
+                        <input type="text" id="nomeUsuario" placeholder="Ex: Dr. Lucas Paiva">
+                    </div>
+                    <div class="form-group">
+                        <label>E-mail</label>
+                        <input type="email" id="emailUsuario" placeholder="exemplo@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Senha</label>
+                        <input type="password" id="senhaUsuario" placeholder="********">
+                    </div>
+                </div>
+
+                <!-- Dados específicos do tipo de usuário -->
+                <div class="card" id="configEspecifica"></div>
+
+                <!-- Preferências -->
+                <div class="card">
+                    <h3>⚙️ Preferências</h3>
+                    <div class="form-group">
+                        <label>Tema</label>
+                        <select id="temaUsuario">
+                            <option value="light">Claro</option>
+                            <option value="dark">Escuro</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Botão principal -->
+                <button class="btn-primary" onclick="salvarConfiguracoes()">
+                    <i class="fas fa-save"></i> Salvar Alterações
+                </button>
+
+            </section>
+        </main>
+
+        <!-- Quick bar -->
+        <aside class="quick-bar">
+            <button class="quick-btn"><i class="fas fa-search"></i></button>
+            <button class="quick-btn"><i class="fas fa-sticky-note"></i></button>
+            <button class="quick-btn"><i class="fas fa-comment-dots"></i></button>
+        </aside>
+    </div>
+
+    <script src="../js/configuracoes.js"></script>
+</body>
+
+</html>

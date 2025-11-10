@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacientes - MedSync</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="layout-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Med<span class="brand-color">Sync</span></h2>
+            <ul>
+                <li><a href="home.html"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+                <li class="active"><a href="pacientes.html"><i class="fas fa-user"></i> Pacientes</a></li>
+                <li><a href="consultas.html"><i class="fas fa-calendar-alt"></i> Consultas</a></li>
+                <li><a href="relatorios.html"><i class="fas fa-file-medical"></i> Relatórios</a></li>
+                <li><a href="medicamentos.html"><i class="fas fa-pills"></i> Medicamentos</a></li>
+                <li><a href="academicos.html"><i class="fas fa-graduation-cap"></i> Acadêmicos</a></li>
+                <li><a href="configuracoes.html"><i class="fas fa-cogs"></i> Configurações</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main -->
+        <main class="main-content">
+
+            <header class="topbar">
+                <h2><i class="fas fa-user"></i> Gerenciamento de Pacientes</h2>
+                <button id="btnNovoPaciente" class="btn-new-template">
+                    <i class="fas fa-plus"></i> Novo Paciente
+                </button>
+            </header>
+
+            <section class="page-content">
+
+                <!-- Campo de busca -->
+                <div class="search-bar">
+                    <input type="text" id="buscaPaciente" placeholder="Buscar paciente por nome, CPF ou e-mail..."
+                        class="search-input">
+                </div>
+
+                <!-- Tabela estilizada -->
+                <div class="table-container">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>E-mail</th>
+                                <th>Telefone</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaPacientes">
+                            <tr>
+                                <td>Jane Doe</td>
+                                <td>123.456.789-00</td>
+                                <td>jane@exemplo.com</td>
+                                <td>(19) 99999-8888</td>
+                                <td><span class="status stable">Estável</span></td>
+                                <td>
+                                    <button class="btn-small green" onclick="novoRelatorio('Jane Doe')">
+                                        <i class="fas fa-file-medical"></i> Relatório
+                                    </button>
+                                    <button class="btn-small gray">
+                                        <i class="fas fa-pen"></i> Editar
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+        </main>
+
+        <!-- Quick bar -->
+        <aside class="quick-bar">
+            <button class="quick-btn" title="Busca rápida"><i class="fas fa-search"></i></button>
+            <button class="quick-btn" title="Nota rápida"><i class="fas fa-sticky-note"></i></button>
+            <button class="quick-btn" title="Feedback"><i class="fas fa-comment-dots"></i></button>
+        </aside>
+
+    </div>
+
+    <script src="../js/pacientes.js"></script>
+</body>
+
+</html>

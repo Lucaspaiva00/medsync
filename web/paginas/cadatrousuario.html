@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Usuário - MedSync</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body class="auth-page">
+
+    <div class="auth-card" id="formContainer">
+        <h1 class="brand-name">Med<span>Sync</span></h1>
+        <p id="etapaTitulo" style="color:#6b7280;">Etapa 1 de 3 - Dados Pessoais</p>
+
+        <!-- Etapa 1 -->
+        <div class="form-step" id="step1">
+            <input type="text" id="nome" class="auth-input" placeholder="Nome completo">
+            <input type="text" id="cpf" class="auth-input" placeholder="CPF">
+            <input type="date" id="nascimento" class="auth-input" placeholder="Data de nascimento">
+            <input type="text" id="telefone" class="auth-input" placeholder="Telefone (DDD + número)">
+            <input type="email" id="email" class="auth-input" placeholder="E-mail">
+            <input type="text" id="endereco" class="auth-input" placeholder="Endereço completo">
+            <button class="btn-primary" onclick="proximaEtapa(2)">Próxima etapa</button>
+        </div>
+
+        <!-- Etapa 2 -->
+        <div class="form-step hidden" id="step2">
+            <select id="tipoUsuario" class="auth-input">
+                <option value="">Selecione o tipo de perfil</option>
+                <option value="MEDICO">Médico</option>
+                <option value="ACADEMICO">Acadêmico</option>
+            </select>
+
+            <input type="text" id="instituicao" class="auth-input" placeholder="Instituição de ensino ou trabalho">
+            <input type="text" id="periodo" class="auth-input" placeholder="Período da faculdade (ex: 8º semestre)">
+            <input type="text" id="matricula" class="auth-input" placeholder="Matrícula (se acadêmico)">
+            <input type="text" id="especialidade" class="auth-input" placeholder="Especialidade ou área de atuação">
+            <input type="text" id="crm" class="auth-input" placeholder="CRM (apenas médicos)">
+            <select id="estado" class="auth-input">
+                <option value="">Estado de atuação</option>
+                <option value="SP">SP</option>
+                <option value="RJ">RJ</option>
+                <option value="MG">MG</option>
+                <option value="PR">PR</option>
+                <option value="RS">RS</option>
+                <!-- Adicione os demais -->
+            </select>
+
+            <button class="btn-primary" onclick="proximaEtapa(3)">Próxima etapa</button>
+        </div>
+
+        <!-- Etapa 3 -->
+        <div class="form-step hidden" id="step3">
+            <input type="password" id="senha" class="auth-input" placeholder="Crie uma senha segura">
+            <input type="password" id="confSenha" class="auth-input" placeholder="Confirme sua senha">
+
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem;">
+                <input type="checkbox" id="termos">
+                <label for="termos" style="font-size:0.9rem;color:#555;">Li e aceito os <a href="#">Termos de
+                        Uso</a></label>
+            </div>
+
+            <button class="btn-primary" onclick="finalizarCadastro()">Concluir cadastro</button>
+        </div>
+    </div>
+
+    <script src="../js/cadastrousuario.js"></script>
+</body>
+
+</html>
