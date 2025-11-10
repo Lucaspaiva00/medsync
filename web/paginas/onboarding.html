@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escolher Perfil - MedSync</title>
+    <title>Onboarding - MedSync</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -12,19 +12,19 @@
 <body class="auth-page">
 
     <div class="auth-card">
-        <h2>Bem-vindo ao MedSync 👋</h2>
-        <p style="color:#6b7280;">Selecione o tipo de conta para continuar</p>
+        <h1 class="brand-name">Bem-vindo ao <span>MedSync</span></h1>
+        <p class="subtitle">Selecione seu perfil para continuarmos</p>
 
-        <div class="role-options">
-            <div class="role-option" data-role="MEDICO">
-                <i class="fas fa-user-md"></i>
-                <h4>Médico</h4>
-            </div>
-            <div class="role-option" data-role="ACADEMICO">
-                <i class="fas fa-graduation-cap"></i>
-                <h4>Acadêmico</h4>
-            </div>
+        <div class="button-group">
+            <button class="btn-primary" onclick="selecionarPerfil('MEDICO')">
+                <i class="fas fa-user-md"></i> Sou Médico
+            </button>
+            <button class="btn-secondary" onclick="selecionarPerfil('ACADEMICO')">
+                <i class="fas fa-user-graduate"></i> Sou Acadêmico
+            </button>
         </div>
+
+        <p class="info-text">Após escolher, você precisará enviar seu documento de comprovação.</p>
     </div>
 
     <script src="../js/onboarding.js"></script>

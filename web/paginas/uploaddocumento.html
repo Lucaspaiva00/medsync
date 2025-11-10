@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enviar Documento - MedSync</title>
+    <title>Envio de Documento - MedSync</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -12,18 +12,19 @@
 <body class="auth-page">
 
     <div class="auth-card">
-        <h2 id="tituloUpload"></h2>
-        <p id="descricaoUpload" style="color:#6b7280;"></p>
+        <h1 class="brand-name">Validação de Cadastro</h1>
+        <p class="subtitle" id="tipoTexto"></p>
 
-        <div class="upload-area" id="areaUpload">
-            <i class="fas fa-cloud-upload-alt"></i>
-            <p>Clique para escolher um arquivo</p>
-            <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png" hidden>
-        </div>
+        <form id="uploadForm">
+            <label class="upload-label" for="documento">
+                <i class="fas fa-upload"></i> Enviar Documento
+            </label>
+            <input type="file" id="documento" accept=".pdf,.png,.jpg,.jpeg" hidden>
 
-        <div id="previewArquivo" style="margin-bottom:1rem; font-size:0.9rem; color:#374151;"></div>
+            <p id="arquivoSelecionado" class="info-text"></p>
 
-        <button class="btn-primary" id="btnEnviar">Enviar documento</button>
+            <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Enviar para análise</button>
+        </form>
     </div>
 
     <script src="../js/uploaddocumento.js"></script>

@@ -1,44 +1,31 @@
-const tipo = localStorage.getItem("tipoUsuario") || "ACADEMICO";
+document.addEventListener("DOMContentLoaded", () => {
+    const tipo = localStorage.getItem("tipoUsuario");
+    const tipoTexto = document.getElementById("tipoTexto");
 
-const titulo = document.getElementById("tituloUpload");
-const descricao = document.getElementById("descricaoUpload");
-const areaUpload = document.getElementById("areaUpload");
-const inputFile = document.getElementById("fileInput");
-const preview = document.getElementById("previewArquivo");
-const btnEnviar = document.getElementById("btnEnviar");
+    tipoTexto.innerText = tipo === "MEDICO"
+        ? "Envie uma cópia digital do seu CRM para validação."
+        : "Envie seu comprovante de matrícula atualizado.";
 
-// Ajusta textos conforme médico / acadêmico
-if (tipo === "MEDICO") {
-    titulo.innerHTML = '<i class="fas fa-id-card"></i> Enviar documento profissional';
-    descricao.textContent = "Envie uma cópia do seu CRM ou documento profissional para validação.";
-} else {
-    titulo.innerHTML = '<i class="fas fa-file-medical"></i> Enviar comprovante acadêmico';
-    descricao.textContent = "Envie um comprovante de matrícula ou documento institucional.";
-}
+    const input = document.getElementById("documento");
+    const label = document.querySelector(".upload-label");
+    const arquivo = document.getElementById("arquivoSelecionado");
 
-// Clique na área abre o input
-areaUpload.addEventListener("click", () => inputFile.click());
+    label.addEventListener("click", () => input.click());
 
-// Mostra nome do arquivo
-inputFile.addEventListener("change", () => {
-    const file = inputFile.files[0];
-    if (file) {
-        preview.textContent = `Arquivo selecionado: ${file.name}`;
-    } else {
-        preview.textContent = "";
-    }
-});
+    input.addEventListener("change", () => {
+        arquivo.innerText = input.files.length ? input.files[0].name : "";
+    });
 
-// Envio (simulado)
-btnEnviar.addEventListener("click", () => {
-    if (!inputFile.files[0]) {
-        alert("Selecione um arquivo antes de enviar.");
-        return;
-    }
+    document.getElementById("uploadForm").addEventListener("submit", (e) => {
+        e.preventDefault();
 
-    // Aqui você faria o upload de verdade pro backend
-    // e marcaria statusVerificacao = PENDENTE_VERIFICACAO
+        if (!input.files.length) {
+            alert("Selecione um arquivo antes de enviar.");
+            return;
+        }
 
-    alert("Documento enviado com sucesso! Agora vamos analisar os dados.");
-    window.location.href = "aguardando.html";
+        localStorage.setItem("statusVerificacao", "PENDENTE");
+        alert("Documento enviado com sucesso! Aguarde a verificação.");
+        window.location.href = "aguardando.html";
+    });
 });
