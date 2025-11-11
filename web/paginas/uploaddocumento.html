@@ -10,21 +10,28 @@
 </head>
 
 <body class="auth-page">
+    <div class="auth-card upload-card">
+        <h1 class="brand-name">Med<span>Sync</span></h1>
+        <h2>Envio de Documento</h2>
+        <p id="usuarioInfo"></p>
 
-    <div class="auth-card">
-        <h1 class="brand-name">Validação de Cadastro</h1>
-        <p class="subtitle" id="tipoTexto"></p>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <select id="tipoDocumento" class="auth-input" required>
+                <option value="">Selecione o tipo de documento</option>
+                <option value="Comprovante de Matrícula">Comprovante de Matrícula</option>
+                <option value="CRM">CRM (Médicos)</option>
+            </select>
 
-        <form id="uploadForm">
-            <label class="upload-label" for="documento">
+            <div class="file-upload-area">
+                <input type="file" id="arquivo" name="documento" accept=".pdf,.jpg,.jpeg,.png" required>
+            </div>
+
+            <button type="submit" class="btn-primary">
                 <i class="fas fa-upload"></i> Enviar Documento
-            </label>
-            <input type="file" id="documento" accept=".pdf,.png,.jpg,.jpeg" hidden>
-
-            <p id="arquivoSelecionado" class="info-text"></p>
-
-            <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Enviar para análise</button>
+            </button>
         </form>
+
+        <div id="statusMensagem" class="status-msg"></div>
     </div>
 
     <script src="../js/uploaddocumento.js"></script>

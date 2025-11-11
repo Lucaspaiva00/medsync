@@ -14,10 +14,12 @@
         <h1 class="brand-name">Med<span>Sync</span></h1>
         <p style="color:#6b7280; margin-bottom:1.5rem;">Acesse sua conta para continuar</p>
 
-        <input type="email" id="email" class="auth-input" placeholder="E-mail">
-        <input type="password" id="senha" class="auth-input" placeholder="Senha">
+        <form id="formLogin">
+            <input type="email" id="email" placeholder="E-mail" required />
+            <input type="password" id="senha" placeholder="Senha" required />
+            <button type="submit" class="btn btn-primary w-100">Entrar</button>
+        </form>
 
-        <button class="btn-primary" id="btnLogin">Entrar</button>
     </div>
 
     <script src="../js/login.js"></script>

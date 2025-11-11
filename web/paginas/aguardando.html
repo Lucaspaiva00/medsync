@@ -2,24 +2,19 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aguardando Verificação - MedSync</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aguardando Aprovação - MedSync</title>
+    <link rel="stylesheet" href="../css/style.css" />
 </head>
 
 <body class="auth-page">
-
     <div class="auth-card">
-        <i class="fas fa-hourglass-half icon-large"></i>
-        <h1 class="brand-name">Em Análise</h1>
-        <p class="subtitle">Seu cadastro está em verificação pela equipe MedSync.</p>
-        <p class="info-text">Você receberá um e-mail assim que sua conta for aprovada.</p>
-
-        <button class="btn-primary" onclick="verificarStatus()">
-            <i class="fas fa-sync-alt"></i> Atualizar status
-        </button>
+        <h1 class="brand-name">Med<span>Sync</span></h1>
+        <h2>Status da Verificação</h2>
+        <p id="usuarioInfo"></p>
+        <div id="statusMensagem" class="status-msg">Carregando status...</div>
+        <div class="loader" style="margin-top: 20px;"></div>
     </div>
 
     <script src="../js/aguardando.js"></script>

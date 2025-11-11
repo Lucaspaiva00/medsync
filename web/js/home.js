@@ -1,3 +1,10 @@
+const usuario = JSON.parse(localStorage.getItem("usuarioCadastrado"));
+if (!usuario) window.location.href = "login.html";
+document.getElementById("usuarioNome").textContent = `Olá, ${usuario.nome}!`;
+document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem("usuarioCadastrado");
+    window.location.href = "login.html";
+});
 // Cronômetro simples
 let segundos = 0;
 setInterval(() => {

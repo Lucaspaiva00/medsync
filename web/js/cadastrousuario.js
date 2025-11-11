@@ -12,14 +12,18 @@ function proximaEtapa(etapa) {
                 : "";
 }
 
-function finalizarCadastro() {
+async function finalizarCadastro() {
     const nome = document.getElementById("nome").value.trim();
     const email = document.getElementById("email").value.trim();
     const senha = document.getElementById("senha").value;
     const confSenha = document.getElementById("confSenha").value;
+    const tipo = document.getElementById("tipoUsuario").value;
+    const telefone = document.getElementById("telefone").value;
+    const instituicao = document.getElementById("instituicao").value;
+    const periodo = document.getElementById("periodo").value;
     const termos = document.getElementById("termos").checked;
 
-    if (!nome || !email || !senha || !confSenha) {
+    if (!nome || !email || !senha || !confSenha || !tipo) {
         alert("Preencha todos os campos obrigatórios!");
         return;
     }
@@ -34,26 +38,47 @@ function finalizarCadastro() {
         return;
     }
 
-    // Simulação de envio ao backend
+    // 🔹 Mapeia o campo correto de identificação
+    let identificacao = "";
+    if (tipo === "MEDICO") {
+        identificacao = document.getElementById("crm").value || "";
+    } else if (tipo === "ACADEMICO") {
+        identificacao = document.getElementById("matricula").value || "";
+    }
+
+    // 🔹 Monta o objeto conforme o backend espera
     const novoUsuario = {
         nome,
-        cpf: document.getElementById("cpf").value,
-        nascimento: document.getElementById("nascimento").value,
-        telefone: document.getElementById("telefone").value,
         email,
-        endereco: document.getElementById("endereco").value,
-        tipo: document.getElementById("tipoUsuario").value,
-        instituicao: document.getElementById("instituicao").value,
-        periodo: document.getElementById("periodo").value,
-        matricula: document.getElementById("matricula").value,
-        especialidade: document.getElementById("especialidade").value,
-        crm: document.getElementById("crm").value,
-        estado: document.getElementById("estado").value,
+        senha,
+        tipo,
+        telefone,
+        identificacao,
+        instituicao,
+        periodo,
     };
 
-    console.log("Usuário cadastrado:", novoUsuario);
+    try {
+        const response = await fetch("http://localhost:3000/api/usuarios", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(novoUsuario),
+        });
 
-    // Redireciona para upload
-    alert("Cadastro concluído! Agora envie seu documento para validação.");
-    window.location.href = "uploaddocumento.html";
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.error || "Erro ao cadastrar usuário.");
+            return;
+        }
+
+        alert("Cadastro concluído! Agora envie seu documento para validação.");
+        localStorage.setItem("usuarioCadastrado", JSON.stringify(data.usuario)); // guarda para upload
+        window.location.href = "uploaddocumento.html";
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        alert("Falha na comunicação com o servidor. Verifique a conexão.");
+    }
 }
