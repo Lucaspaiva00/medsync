@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/notas.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- EDITOR -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill/dist/quill.snow.css">
 </head>
 
 <body>
@@ -19,81 +22,149 @@
             <h2>Notas</h2>
 
             <ul>
-                <li data-page="listaNotas" class="active"><i class="fas fa-file-alt"></i> Todas as Notas</li>
-                <li data-page="novaNota"><i class="fas fa-plus-circle"></i> Nova Nota</li>
-                <li data-page="buscarNota"><i class="fas fa-search"></i> Encontrar Nota</li>
-                <li data-page="templates"><i class="fas fa-magic"></i> Templates Inteligentes</li>
-                <li data-page="geral"><i class="fas fa-layer-group"></i> Geral</li>
-                <li data-page="selecionado"><i class="fas fa-check-circle"></i> Selecionado</li>
-                <li data-page="favoritos"><i class="fas fa-star"></i> Favoritos</li>
-                <li data-page="recentes"><i class="fas fa-history"></i> Usados Recentemente</li>
-                <li data-page="minhasNotas"><i class="fas fa-folder"></i> Minhas Notas</li>
-                <li data-page="gerenciar"><i class="fas fa-sliders-h"></i> Gerenciar Notas</li>
+                <li onclick="location.href='home.html'" style="color:#1f5eff; font-weight:600;">
+                    <i class="fas fa-arrow-left"></i> Voltar para Home
+                </li>
+
+                <li id="menuTodas" class="active">
+                    <i class="fas fa-file-alt"></i> Todas as Notas
+                </li>
+                <li id="menuNova">
+                    <i class="fas fa-plus-circle"></i> Nova Nota
+                </li>
+                <li id="menuBuscar">
+                    <i class="fas fa-search"></i> Encontrar Nota
+                </li>
+                <li id="menuTemplates">
+                    <i class="fas fa-magic"></i> Templates Inteligentes
+                </li>
+                <li id="menuGeral">
+                    <i class="fas fa-layer-group"></i> Geral
+                </li>
+                <li id="menuSelecionado">
+                    <i class="fas fa-check-circle"></i> Selecionado
+                </li>
+                <li id="menuFavoritos">
+                    <i class="fas fa-star"></i> Favoritos
+                </li>
+                <li id="menuRecentes">
+                    <i class="fas fa-history"></i> Usados Recentemente
+                </li>
+                <li id="menuMinhas">
+                    <i class="fas fa-folder"></i> Minhas Notas
+                </li>
+                <li id="menuGerenciar">
+                    <i class="fas fa-sliders-h"></i> Gerenciar Notas
+                </li>
             </ul>
         </aside>
 
         <!-- CONTEÚDO PRINCIPAL -->
         <main class="conteudo-notas">
 
-            <!-- Seção: Lista de Notas -->
+            <!-- LISTA -->
             <section id="listaNotas" class="notas-section active">
-                <h2>📄 Todas as Notas</h2>
-                <div class="lista-notas"></div>
+                <h2 id="tituloLista">📄 Todas as Notas</h2>
+                <div class="lista-notas" id="containerNotas"></div>
             </section>
 
-            <!-- Seção: Nova Nota -->
+            <!-- CRIAÇÃO / EDIÇÃO DE NOTA -->
             <section id="novaNota" class="notas-section">
-                <h2>➕ Nova Nota</h2>
-                <textarea class="editor-nota" placeholder="Comece a digitar sua nota..."></textarea>
-                <button class="btn-salvar">Salvar Nota</button>
+
+                <div class="top-editor">
+                    <h2 id="tituloNova">➕ Nova Nota</h2>
+
+                    <div class="editor-actions">
+                        <button id="btnExportarPDF" class="btn-top">
+                            <i class="fa-solid fa-file-pdf"></i> Exportar PDF
+                        </button>
+                    </div>
+                </div>
+
+                <input type="text" id="tituloNovaNota" class="input-titulo" placeholder="Título da nota...">
+
+                <!-- TOOLBAR -->
+                <div id="toolbar">
+                    <span class="ql-formats">
+                        <button class="ql-bold"></button>
+                        <button class="ql-italic"></button>
+                        <button class="ql-underline"></button>
+                        <button class="ql-clean"></button>
+                    </span>
+                    <span class="ql-formats">
+                        <select class="ql-header">
+                            <option value="1"></option>
+                            <option value="2"></option>
+                            <option selected></option>
+                        </select>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-list" value="ordered"></button>
+                        <button class="ql-list" value="bullet"></button>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-blockquote"></button>
+                    </span>
+                </div>
+
+                <!-- EDITOR -->
+                <div id="editor" class="editor-area"></div>
+
+                <!-- CONTADOR -->
+                <div id="contador" class="contador-texto">
+                    0 palavras • 0 caracteres
+                </div>
+
+                <button class="btn-salvar" id="btnSalvarNota">💾 Salvar Nota</button>
             </section>
 
-            <!-- Seção: Buscar Nota -->
+            <!-- BUSCA -->
             <section id="buscarNota" class="notas-section">
                 <h2>🔍 Encontrar Nota</h2>
-                <input type="text" placeholder="Digite para buscar..." class="inputBusca">
-                <div class="resultadoBusca"></div>
+                <input type="text" id="inputBusca" placeholder="Digite para buscar..." class="inputBusca">
+                <div class="resultadoBusca" id="resultadoBusca"></div>
             </section>
-
-            <!-- Seção: Templates Inteligentes -->
-            <section id="templates" class="notas-section">
-                <h2>✨ Templates Inteligentes</h2>
-            </section>
-
-            <!-- Seção: Geral -->
-            <section id="geral" class="notas-section">
-                <h2>📁 Geral</h2>
-            </section>
-
-            <!-- Seção: Selecionado -->
-            <section id="selecionado" class="notas-section">
-                <h2>✔ Selecionado</h2>
-            </section>
-
-            <!-- Seção: Favoritos -->
-            <section id="favoritos" class="notas-section">
-                <h2>⭐ Favoritos</h2>
-            </section>
-
-            <!-- Seção: Usados Recentemente -->
-            <section id="recentes" class="notas-section">
-                <h2>🕓 Usados Recentemente</h2>
-            </section>
-
-            <!-- Seção: Minhas Notas -->
-            <section id="minhasNotas" class="notas-section">
-                <h2>📂 Minhas Notas</h2>
-            </section>
-
-            <!-- Seção: Gerenciar Notas -->
-            <section id="gerenciar" class="notas-section">
-                <h2>⚙ Gerenciar Notas</h2>
-            </section>
-
         </main>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/quill/dist/quill.min.js"></script>
     <script src="../js/notas.js"></script>
+
+    <script>
+        /* ===========================
+            CONFIGURAÇÃO DO EDITOR
+        ============================ */
+
+        window.editor = new Quill("#editor", {
+            theme: "snow",
+            placeholder: "Escreva sua nota aqui...",
+            modules: {
+                toolbar: "#toolbar"
+            }
+        });
+
+        /* ===========================
+           AUTOSAVE A CADA 2s
+        ============================ */
+
+        setInterval(() => {
+            const conteudo = editor.root.innerHTML;
+            localStorage.setItem("autosaveNota", conteudo);
+        }, 2000);
+
+        /* ===========================
+            CONTADOR
+        ============================ */
+        editor.on("text-change", () => {
+            const text = editor.getText();
+            const palavras = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+            const caracteres = text.trim().length;
+
+            document.getElementById("contador").textContent =
+                `${palavras} palavras • ${caracteres} caracteres`;
+        });
+    </script>
+
 </body>
 
 </html>

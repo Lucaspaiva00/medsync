@@ -16,18 +16,18 @@ router.delete("/api/usuarios/:id", usuarioController.delete);
 
 router.post("/api/notas", notaController.create);
 router.get("/api/notas/:usuarioId", notaController.listAll);
-router.get("/api/notas/buscar/:usuarioId", notaController.search);
-router.get("/api/notas/favoritos/:usuarioId", notaController.listFavoritos);
-router.get("/api/notas/recentes/:usuarioId", notaController.listRecentes);
-
 router.get("/api/notas/item/:id", notaController.getById);
 router.put("/api/notas/:id", notaController.update);
 router.delete("/api/notas/:id", notaController.delete);
 
-// ações especiais
+router.get("/api/notas/favoritos/:usuarioId", notaController.favoritos);
+router.get("/api/notas/recentes/:usuarioId", notaController.recentes);
+router.get("/api/notas/selecionado/:usuarioId", notaController.selecionadoList);
+router.get("/api/notas/templates/:usuarioId", notaController.templates);
+router.get("/api/notas/buscar/:usuarioId", notaController.search);
+
 router.patch("/api/notas/favorito/:id", notaController.toggleFavorito);
 router.patch("/api/notas/selecionado/:id", notaController.toggleSelecionado);
-
 
 // 📎 DOCUMENTOS
 router.post("/api/documentos", documentoController.create);
