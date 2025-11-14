@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedSync - Dashboard</title>
+    <title>MedSync - Home</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -16,12 +16,14 @@
         <aside class="sidebar">
             <h2>Med<span class="brand-color">Sync</span></h2>
             <ul>
-                <li class="active"><a href="home.html"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
-                <li><a href="pacientes.html"><i class="fas fa-user"></i> Pacientes</a></li>
-                <li><a href="consultas.html"><i class="fas fa-calendar-alt"></i> Consultas</a></li>
-                <li><a href="relatorios.html"><i class="fas fa-file-medical"></i> Relatórios</a></li>
-                <li><a href="medicamentos.html"><i class="fas fa-pills"></i> Medicamentos</a></li>
-                <li><a href="academicos.html"><i class="fas fa-graduation-cap"></i> Acadêmicos</a></li>
+                <li class="active"><a href="home.html"><i class="fas fa-house"></i> Home</a></li>
+                <li><a href="meuplantao.html"><i class="fas fa-briefcase-medical"></i> Meu Plantão</a></li>
+                <li><a href="perfil.html"><i class="fas fa-user-circle"></i> Perfil</a></li>
+                <li><a href="notas.html"><i class="fas fa-notes-medical"></i> Notas</a></li>
+                <li><a href="laboratorios.html"><i class="fas fa-flask"></i> Laboratórios</a></li>
+                <li><a href="receituarios.html"><i class="fas fa-prescription-bottle-alt"></i> Receituários</a></li>
+                <li><a href="calculadoras.html"><i class="fas fa-calculator"></i> Calculadoras</a></li>
+                <li><a href="diluicoes.html"><i class="fas fa-vial"></i> Diluições</a></li>
                 <li><a href="configuracoes.html"><i class="fas fa-cogs"></i> Configurações</a></li>
             </ul>
         </aside>
@@ -43,7 +45,8 @@
                     </select>
                 </div>
                 <div class="topbar-center">
-                    <div id="cronometro" class="timer">⏱️ 00:00:00</div>
+                    <div id="cronometro" class="timer">⏱️ 30:00</div>
+                    <button id="editarTempo" class="btn-editar-tempo">⏱️ Editar</button>
                 </div>
                 <div class="topbar-right">
                     <div class="user-menu">
@@ -60,34 +63,33 @@
                         id="mainSearch">
                 </div>
 
-                <!-- Cards do Dashboard -->
+                <!-- Cards da Home -->
                 <div class="dashboard-grid">
                     <div class="card">
                         <h3>⭐ Meus Favoritos</h3>
-                        <p>Acesse rapidamente os templates e pacientes mais usados.</p>
+                        <p>Acesse rapidamente seus relatórios, notas e receitas favoritas.</p>
                     </div>
 
                     <div class="card">
                         <h3>🕓 Últimos Utilizados</h3>
                         <ul id="ultimosUsados">
-                            <li>Relatório - Paciente Jane Doe</li>
-                            <li>Template - Anamnese Geral</li>
-                            <li>Consulta - João Silva</li>
+                            <li>Nota de Atendimento - João Silva</li>
+                            <li>Receituário - Maria Souza</li>
                         </ul>
                     </div>
 
                     <div class="card">
-                        <h3>💡 Templates Sugeridos</h3>
+                        <h3>💡 Sugestões Recentes</h3>
                         <ul>
-                            <li>Pronto Atendimento Adulto</li>
-                            <li>Pediatria Básica</li>
-                            <li>Consulta de Retorno</li>
+                            <li>Nota de Evolução - Pronto Socorro</li>
+                            <li>Template de Alta</li>
+                            <li>Receituário Pediatria</li>
                         </ul>
                     </div>
 
                     <div class="card new-template">
                         <button id="btnNovoTemplate" class="btn-new-template">
-                            <i class="fas fa-plus"></i> Criar Novo Template
+                            <i class="fas fa-plus"></i> Criar Novo Documento
                         </button>
                     </div>
                 </div>

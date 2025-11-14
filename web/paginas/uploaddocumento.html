@@ -6,32 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Envio de Documento - MedSync</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body class="auth-page">
-    <div class="auth-card upload-card">
+
+    <div class="auth-card">
+
         <h1 class="brand-name">Med<span>Sync</span></h1>
-        <h2>Envio de Documento</h2>
-        <p id="usuarioInfo"></p>
+        <p>Envio de Documento</p>
 
-        <form id="uploadForm" enctype="multipart/form-data">
-            <select id="tipoDocumento" class="auth-input" required>
-                <option value="">Selecione o tipo de documento</option>
-                <option value="Comprovante de Matrícula">Comprovante de Matrícula</option>
-                <option value="CRM">CRM (Médicos)</option>
-            </select>
+        <div id="campoCRM">
+            <label>CRM (somente médicos)</label>
+            <input type="text" id="crmUpload" class="auth-input">
+        </div>
 
-            <div class="file-upload-area">
-                <input type="file" id="arquivo" name="documento" accept=".pdf,.jpg,.jpeg,.png" required>
-            </div>
+        <div id="campoMatricula">
+            <label>Matrícula (somente acadêmicos)</label>
+            <input type="text" id="matriculaUpload" class="auth-input">
+        </div>
 
-            <button type="submit" class="btn-primary">
-                <i class="fas fa-upload"></i> Enviar Documento
-            </button>
-        </form>
+        <input type="file" id="arquivo" class="auth-input" accept="image/*,.pdf">
 
-        <div id="statusMensagem" class="status-msg"></div>
+        <button onclick="enviarDocumento()" class="btn-primary">Enviar Documento</button>
+
     </div>
 
     <script src="../js/uploaddocumento.js"></script>

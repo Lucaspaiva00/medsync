@@ -1,0 +1,41 @@
+Paginas que precisam ser apagadas que não tem nada haver com o projeto:
+Pacientes
+consultas
+academicos
+
+Páginas a serem acrescentada:
+Mudar Dashboard para Home
+Meu plantão
+Perfil
+Notas
+LAboratórios
+Receituários
+Calculadoras
+Diluições
+
+Credenciais no rodape desse menu 
+
+Quando o cliente selecionar o "medico" não aparecer período e nem matrícula
+Quando o cliente selecionar o "academico" nao aparecer especiliadade e nem crm
+Endereço remover de ambos os cadastros
+colocar frase segura
+
+subir o upload do documento da etapa 2 do cadastro
+Na tela de upload se for médico deixar apenas o campo do crm
+se for academico deixar apenas o campo da matricula
+
+Montar um onboarding (turotial) de como mexer no sistema
+
+o cronometro do sistema é um time out de 30min, o usuario pode alterar
+esses 30min
+
+dashboard, campo "ultimo utilizados" substituir por notas
+
+Olhar a imagem "credenciais" no rodape
+
+Remover "pacientes" e deixar somente notas
+Adicionar meu perfil no "dr.paiva"
+menu lateral centralizar as opção e mudar a coloração o mais
+claro possível 
+Ultima opção Feedback é onde o cliente ira dizer sobre a sua 
+experiencia com o sistema

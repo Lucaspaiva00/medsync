@@ -1,84 +1,172 @@
 let etapaAtual = 1;
 
+/* =====================
+   TROCAR DE ETAPA
+===================== */
 function proximaEtapa(etapa) {
     document.getElementById(`step${etapaAtual}`).classList.add("hidden");
     document.getElementById(`step${etapa}`).classList.remove("hidden");
     etapaAtual = etapa;
-    document.getElementById("etapaTitulo").innerText =
-        etapa === 2
-            ? "Etapa 2 de 3 - Dados Profissionais"
-            : etapa === 3
-                ? "Etapa 3 de 3 - Segurança e Confirmação"
-                : "";
+    atualizarTitulo();
 }
 
+function voltarEtapa(etapa) {
+    document.getElementById(`step${etapaAtual}`).classList.add("hidden");
+    document.getElementById(`step${etapa}`).classList.remove("hidden");
+    etapaAtual = etapa;
+    atualizarTitulo();
+}
+
+function atualizarTitulo() {
+    document.getElementById("etapaTitulo").innerText =
+        etapaAtual === 1
+            ? "Etapa 1 de 3 - Dados Pessoais"
+            : etapaAtual === 2
+            ? "Etapa 2 de 3 - Dados Profissionais"
+            : "Etapa 3 de 3 - Segurança e Confirmação";
+}
+
+/* =====================
+   CAMPOS DINÂMICOS
+===================== */
+document.getElementById("tipoUsuario").addEventListener("change", function () {
+    const tipo = this.value;
+
+    const areaMedico = document.getElementById("areaMedico");
+    const areaAcademico = document.getElementById("areaAcademico");
+
+    if (tipo === "MEDICO") {
+        areaMedico.classList.remove("hidden");
+        areaAcademico.classList.add("hidden");
+    } else if (tipo === "ACADEMICO") {
+        areaAcademico.classList.remove("hidden");
+        areaMedico.classList.add("hidden");
+    } else {
+        areaMedico.classList.add("hidden");
+        areaAcademico.classList.add("hidden");
+    }
+});
+
+/* =====================
+   FORÇA DA SENHA
+===================== */
+document.getElementById("senha").addEventListener("input", function () {
+    const s = this.value;
+    const indicador = document.getElementById("forcaSenha");
+
+    let score = 0;
+    if (s.length >= 8) score++;
+    if (/[A-Z]/.test(s)) score++;
+    if (/[a-z]/.test(s)) score++;
+    if (/[0-9]/.test(s)) score++;
+    if (/[\W]/.test(s)) score++;
+
+    if (score <= 2) {
+        indicador.style.color = "red";
+        indicador.innerText = "Senha fraca";
+    } else if (score === 3) {
+        indicador.style.color = "orange";
+        indicador.innerText = "Senha média";
+    } else {
+        indicador.style.color = "green";
+        indicador.innerText = "Senha forte";
+    }
+});
+
+/* =====================
+   FINALIZAR CADASTRO
+===================== */
 async function finalizarCadastro() {
+
     const nome = document.getElementById("nome").value.trim();
     const email = document.getElementById("email").value.trim();
+    const telefone = document.getElementById("telefone").value.trim();
+    const tipo = document.getElementById("tipoUsuario").value;
+    const instituicao = document.getElementById("instituicao").value;
     const senha = document.getElementById("senha").value;
     const confSenha = document.getElementById("confSenha").value;
-    const tipo = document.getElementById("tipoUsuario").value;
-    const telefone = document.getElementById("telefone").value;
-    const instituicao = document.getElementById("instituicao").value;
-    const periodo = document.getElementById("periodo").value;
     const termos = document.getElementById("termos").checked;
 
-    if (!nome || !email || !senha || !confSenha || !tipo) {
+    let periodo = "";
+    let identificacao = "";
+
+    if (tipo === "ACADEMICO") {
+        periodo = document.getElementById("periodo").value;
+        identificacao = document.getElementById("matricula").value;
+    }
+
+    if (tipo === "MEDICO") {
+        identificacao = document.getElementById("crm").value;
+    }
+
+    const arquivo = document.getElementById("arquivoDocumento").files[0];
+
+    if (!nome || !email || !telefone || !tipo || !senha || !confSenha) {
         alert("Preencha todos os campos obrigatórios!");
         return;
     }
 
     if (senha !== confSenha) {
-        alert("As senhas não conferem!");
+        alert("As senhas não coincidem!");
         return;
     }
 
     if (!termos) {
-        alert("Você precisa aceitar os Termos de Uso para continuar.");
+        alert("Você precisa aceitar os Termos de Uso.");
         return;
     }
 
-    // 🔹 Mapeia o campo correto de identificação
-    let identificacao = "";
-    if (tipo === "MEDICO") {
-        identificacao = document.getElementById("crm").value || "";
-    } else if (tipo === "ACADEMICO") {
-        identificacao = document.getElementById("matricula").value || "";
+    if (!arquivo) {
+        alert("Envie o documento obrigatório.");
+        return;
     }
 
-    // 🔹 Monta o objeto conforme o backend espera
-    const novoUsuario = {
+    // Criar usuário
+    const usuarioObj = {
         nome,
         email,
-        senha,
-        tipo,
         telefone,
-        identificacao,
+        tipo,
         instituicao,
         periodo,
+        senha,
+        identificacao
     };
 
     try {
-        const response = await fetch("http://localhost:3000/api/usuarios", {
+        const usuarioResponse = await fetch("http://localhost:3000/api/usuarios", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(novoUsuario),
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(usuarioObj)
         });
 
-        const data = await response.json();
+        const usuarioData = await usuarioResponse.json();
 
-        if (!response.ok) {
-            alert(data.error || "Erro ao cadastrar usuário.");
+        if (!usuarioResponse.ok) {
+            alert(usuarioData.error || "Erro ao cadastrar usuário.");
             return;
         }
 
-        alert("Cadastro concluído! Agora envie seu documento para validação.");
-        localStorage.setItem("usuarioCadastrado", JSON.stringify(data.usuario)); // guarda para upload
-        window.location.href = "uploaddocumento.html";
-    } catch (error) {
-        console.error("Erro na requisição:", error);
-        alert("Falha na comunicação com o servidor. Verifique a conexão.");
+        // Upload do documento
+        const formData = new FormData();
+        formData.append("usuarioId", usuarioData.usuario.id);
+        formData.append("documento", arquivo);
+        formData.append("tipo", tipo === "MEDICO" ? "CRM" : "MATRICULA");
+
+        const docResponse = await fetch("http://localhost:3000/api/documentos", {
+            method: "POST",
+            body: formData
+        });
+
+        if (!docResponse.ok) {
+            alert("Cadastro feito, mas houve erro ao enviar documento.");
+        }
+
+        localStorage.setItem("usuarioCadastrado", JSON.stringify(usuarioData.usuario));
+        window.location.href = "aguardando.html";
+
+    } catch (err) {
+        console.error(err);
+        alert("Falha na comunicação com o servidor.");
     }
 }
