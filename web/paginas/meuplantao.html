@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedSync - Meu Plantão</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="layout-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Med<span class="brand-color">Sync</span></h2>
+            <ul>
+                <li><a href="home.html"><i class="fas fa-house"></i> Home</a></li>
+                <li class="active"><a href="meuplantao.html"><i class="fas fa-briefcase-medical"></i> Meu Plantão</a>
+                </li>
+                <li><a href="perfil.html"><i class="fas fa-user-circle"></i> Perfil</a></li>
+                <li><a href="notas.html"><i class="fas fa-notes-medical"></i> Notas</a></li>
+                <li><a href="laboratorios.html"><i class="fas fa-flask"></i> Laboratórios</a></li>
+                <li><a href="receituarios.html"><i class="fas fa-prescription-bottle-alt"></i> Receituários</a></li>
+                <li><a href="calculadoras.html"><i class="fas fa-calculator"></i> Calculadoras</a></li>
+                <li><a href="diluicoes.html"><i class="fas fa-vial"></i> Diluições</a></li>
+                <li><a href="configuracoes.html"><i class="fas fa-cogs"></i> Configurações</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main -->
+        <main class="main-content">
+            <header class="topbar">
+                <div></div>
+                <h2>Meu Plantão</h2>
+                <div class="user-menu">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="userName">Usuário</span>
+                </div>
+            </header>
+
+            <section class="page-content">
+
+                <div class="card">
+                    <h3>⏱️ Nenhum plantão ativo</h3>
+                    <p>Inicie seu plantão para começar a registrar atendimentos.</p>
+                    <button class="btn-new-template">Iniciar Plantão</button>
+                </div>
+
+                <div class="card">
+                    <h3>📋 Plantões Anteriores</h3>
+                    <ul>
+                        <li>Hospital São Lucas — 12/11/2025 • 08:00 → 14:00</li>
+                        <li>Santa Casa Campinas — 10/11/2025 • 18:00 → 00:00</li>
+                    </ul>
+                </div>
+
+            </section>
+        </main>
+
+    </div>
+
+    <script src="../js/home.js"></script>
+    <script>
+        document.getElementById("userName").textContent =
+            JSON.parse(localStorage.getItem("usuarioCadastrado"))?.nome || "Usuário";
+    </script>
+</body>
+
+</html>

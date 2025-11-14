@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedSync - Calculadoras</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="layout-container d-flex">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Med<span class="brand-color">Sync</span></h2>
+            <ul>
+                <li><a href="home.html"><i class="fas fa-house"></i> Home</a></li>
+                <li><a href="meuplantao.html"><i class="fas fa-briefcase-medical"></i> Meu Plantão</a></li>
+                <li><a href="perfil.html"><i class="fas fa-user-circle"></i> Perfil</a></li>
+                <li><a href="notas.html"><i class="fas fa-notes-medical"></i> Notas</a></li>
+                <li><a href="laboratorios.html"><i class="fas fa-flask"></i> Laboratórios</a></li>
+                <li><a href="receituarios.html"><i class="fas fa-prescription-bottle-alt"></i> Receituários</a></li>
+                <li class="active"><a href="#"><i class="fas fa-calculator"></i> Calculadoras</a></li>
+                <li><a href="diluicoes.html"><i class="fas fa-vial"></i> Diluições</a></li>
+                <li><a href="configuracoes.html"><i class="fas fa-cogs"></i> Configurações</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content flex-grow-1">
+
+            <!-- Topbar -->
+            <header class="topbar d-flex justify-content-between align-items-center mb-4">
+                <div class="topbar-left d-flex gap-2">
+                    <select class="select-input form-select">
+                        <option>Instituição</option>
+                        <option>Hospital São Lucas</option>
+                    </select>
+
+                    <select class="select-input form-select">
+                        <option>Cenário</option>
+                        <option>UTI</option>
+                        <option>PS</option>
+                    </select>
+                </div>
+
+                <div class="topbar-center">
+                    <div id="cronometro" class="timer">⏱ 30:00</div>
+                </div>
+
+                <div class="topbar-right">
+                    <div class="user-menu">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="nomeUsuario">Usuário</span>
+                    </div>
+                </div>
+            </header>
+
+
+            <!-- PAGE CONTENT -->
+            <section>
+                <h3 class="mb-4"><i class="fas fa-calculator text-primary"></i> Calculadoras Médicas</h3>
+
+                <div class="row g-4">
+
+                    <!-- IMC -->
+                    <div class="col-md-6">
+                        <div class="card p-3">
+                            <h5 class="text-primary">📏 IMC</h5>
+                            <div class="mb-2">
+                                <label>Peso (kg)</label>
+                                <input id="peso" class="form-control" type="number">
+                            </div>
+                            <div class="mb-2">
+                                <label>Altura (m)</label>
+                                <input id="altura" class="form-control" type="number" step="0.01">
+                            </div>
+                            <button class="btn btn-primary w-100" onclick="calcularIMC()">Calcular</button>
+                            <p id="resultadoIMC" class="mt-2 fw-bold"></p>
+                        </div>
+                    </div>
+
+                    <!-- CLEARANCE -->
+                    <div class="col-md-6">
+                        <div class="card p-3">
+                            <h5 class="text-primary">🩸 Clearance de Creatinina</h5>
+                            <div class="mb-2">
+                                <label>Idade</label>
+                                <input id="idadeCl" class="form-control" type="number">
+                            </div>
+                            <div class="mb-2">
+                                <label>Peso (kg)</label>
+                                <input id="pesoCl" class="form-control" type="number">
+                            </div>
+                            <div class="mb-2">
+                                <label>Creatinina (mg/dL)</label>
+                                <input id="creatinina" class="form-control" type="number" step="0.01">
+                            </div>
+                            <button class="btn btn-primary w-100" onclick="calcularClearance()">Calcular</button>
+                            <p id="resultadoCl" class="mt-2 fw-bold"></p>
+                        </div>
+                    </div>
+
+                    <!-- CHADS2-VASc -->
+                    <div class="col-md-6">
+                        <div class="card p-3">
+                            <h5 class="text-primary">❤️ CHADS2-VASc</h5>
+                            <p class="text-muted">Selecione os critérios</p>
+
+                            <div id="chadsInputs" class="mb-3"></div>
+
+                            <button class="btn btn-primary w-100" onclick="calcularCHADS()">Calcular</button>
+                            <p id="resultadoChads" class="mt-2 fw-bold"></p>
+                        </div>
+                    </div>
+
+                    <!-- Wells -->
+                    <div class="col-md-6">
+                        <div class="card p-3">
+                            <h5 class="text-primary">🦵 Score de Wells</h5>
+                            <p class="text-muted">Critérios de TEV</p>
+
+                            <div id="wellsInputs" class="mb-3"></div>
+
+                            <button class="btn btn-primary w-100" onclick="calcularWells()">Calcular</button>
+                            <p id="resultadoWells" class="mt-2 fw-bold"></p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- LOGICA -->
+    <script src="../js/home.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const usuario = JSON.parse(localStorage.getItem("usuarioCadastrado"));
+            if (usuario) document.getElementById("nomeUsuario").innerHTML = usuario.nome;
+
+            // Campos CHADS
+            const chads = [
+                "Insuficiência cardíaca", "HAS", "Idade ≥75a (2 pontos)", "Diabetes",
+                "AVC prévio (2 pontos)", "Doença vascular", "Idade 65–74a", "Sexo feminino"
+            ];
+            document.getElementById("chadsInputs").innerHTML =
+                chads.map((c, i) => `
+                    <div><input type="checkbox" id="ch${i}"> ${c}</div>
+                `).join("");
+
+            // Campos Wells
+            const wells = [
+                "Câncer ativo", "Imobilização >3 dias", "Cirurgia recente",
+                "Dor localizada profunda", "Edema unilateral", "Colateral superficial",
+                "TEV prévio", "Diagnóstico alternativo menos provável"
+            ];
+            document.getElementById("wellsInputs").innerHTML =
+                wells.map((c, i) => `
+                    <div><input type="checkbox" id="w${i}"> ${c}</div>
+                `).join("");
+        });
+
+        function calcularIMC() {
+            const p = Number(peso.value);
+            const a = Number(altura.value);
+            if (!p || !a) return;
+            const imc = p / (a * a);
+            resultadoIMC.innerHTML = `IMC: ${imc.toFixed(2)}`;
+        }
+
+        function calcularClearance() {
+            const idade = Number(idadeCl.value);
+            const peso = Number(pesoCl.value);
+            const cr = Number(creatinina.value);
+
+            const cl = ((140 - idade) * peso) / (72 * cr);
+            resultadoCl.innerHTML = "Clearance: " + cl.toFixed(1) + " mL/min";
+        }
+
+        function calcularCHADS() {
+            let pontos = 0;
+            for (let i = 0; i < 8; i++) {
+                if (document.getElementById("ch" + i).checked) {
+                    pontos += (i === 2 || i === 4) ? 2 : 1;
+                }
+            }
+            resultadoChads.innerHTML = "CHADS2-VASc = " + pontos;
+        }
+
+        function calcularWells() {
+            let pontos = 0;
+            for (let i = 0; i < 8; i++) {
+                if (document.getElementById("w" + i).checked) pontos++;
+            }
+            resultadoWells.innerHTML = "Wells Score = " + pontos;
+        }
+    </script>
+
+</body>
+
+</html>
