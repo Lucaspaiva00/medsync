@@ -1,0 +1,150 @@
+.layout-notas {
+    display: flex;
+    height: 100vh;
+    background: #f5f6f8;
+}
+
+/* Sidebar */
+.sidebar-notas {
+    width: 260px;
+    background: #fff;
+    border-right: 1px solid #e5e7eb;
+    padding: 1.5rem;
+}
+
+.sidebar-notas h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+}
+
+.sidebar-notas ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar-notas ul li {
+    padding: 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    transition: .2s;
+}
+
+.sidebar-notas ul li:hover,
+.sidebar-notas ul li.active {
+    background: rgba(0, 122, 255, 0.12);
+    color: #0066ff;
+}
+
+/* Conteúdo */
+.conteudo-notas {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.notas-section {
+    display: none;
+}
+
+.notas-section.active {
+    display: block;
+}
+
+/* Texto */
+.editor-nota {
+    width: 100%;
+    height: 400px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    font-size: 1rem;
+}
+
+/* Botão */
+.btn-salvar {
+    margin-top: 1rem;
+    padding: 0.9rem 1.5rem;
+    background: #0066ff;
+    color: #fff;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+.item-nota {
+    background: #fff;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.6rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.item-nota:hover {
+    background: #eef4ff;
+}
+
+.item-titulo {
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+}
+
+.item-meta {
+    font-size: 0.8rem;
+    color: #6b7280;
+}
+
+.editor-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.editor-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.input-titulo {
+    flex: 1;
+    margin: 0 20px;
+    font-size: 20px;
+    border: none;
+    border-bottom: 2px solid #ddd;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-salvar {
+    background: #0089ff;
+    border: none;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.editor-texto {
+    flex: 1;
+    width: 100%;
+    font-size: 16px;
+    padding: 18px;
+    border: none;
+    outline: none;
+    resize: none;
+}

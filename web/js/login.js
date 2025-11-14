@@ -24,7 +24,6 @@ window.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify({ email, senha }),
             });
 
-
             const data = await response.json();
             console.log("🟢 Retorno do login:", data);
 
@@ -33,10 +32,13 @@ window.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // 🔹 Salva o usuário no localStorage
-            localStorage.setItem("usuarioCadastrado", JSON.stringify(data.usuario));
+            // 🔹 Salva o usuário no localStorage com o nome correto
+            localStorage.setItem("usuarioLogado", JSON.stringify(data.usuario));
 
-            // 🔹 Redireciona para a tela de onboarding
+            // 🔹 Salva token (opcional)
+            if (data.token)
+                localStorage.setItem("token", data.token);
+
             alert("Login realizado com sucesso!");
             window.location.href = "home.html";
 

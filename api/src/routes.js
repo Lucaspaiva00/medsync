@@ -5,6 +5,7 @@ const router = express.Router();
 const usuarioController = require("./controllers/usuarioController");
 const documentoController = require("./controllers/documentoController");
 const pacienteController = require("./controllers/pacienteController");
+const notaController = require("./controllers/notaController");
 
 router.post("/api/usuarios", usuarioController.create); // cadastro
 router.post("/api/login", usuarioController.login); // login separado
@@ -13,6 +14,19 @@ router.get("/api/usuarios/:id", usuarioController.readById);
 router.put("/api/usuarios/:id", usuarioController.update);
 router.delete("/api/usuarios/:id", usuarioController.delete);
 
+router.post("/api/notas", notaController.create);
+router.get("/api/notas/:usuarioId", notaController.listAll);
+router.get("/api/notas/buscar/:usuarioId", notaController.search);
+router.get("/api/notas/favoritos/:usuarioId", notaController.listFavoritos);
+router.get("/api/notas/recentes/:usuarioId", notaController.listRecentes);
+
+router.get("/api/notas/item/:id", notaController.getById);
+router.put("/api/notas/:id", notaController.update);
+router.delete("/api/notas/:id", notaController.delete);
+
+// ações especiais
+router.patch("/api/notas/favorito/:id", notaController.toggleFavorito);
+router.patch("/api/notas/selecionado/:id", notaController.toggleSelecionado);
 
 
 // 📎 DOCUMENTOS

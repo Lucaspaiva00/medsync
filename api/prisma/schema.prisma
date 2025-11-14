@@ -7,41 +7,108 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/**
+ * ===========================================================
+ * USUÁRIOS
+ * ===========================================================
+ */
 model Usuario {
   id            Int           @id @default(autoincrement())
   nome          String
   email         String        @unique
   senha         String
-  tipo          TipoUsuario // "MEDICO" | "ACADEMICO" | "ADMIN"
+  tipo          TipoUsuario
   identificacao String? // CRM ou Matrícula
-  documentoUrl  String? // arquivo enviado
+  documentoUrl  String?
   status        StatusUsuario @default(PENDENTE)
   telefone      String?       @db.VarChar(20)
-  instituicao   String? // Universidade ou Hospital
-  periodo       String? // Ex: "8º período" (acadêmico)
-  criadoEm      DateTime      @default(now())
-  atualizadoEm  DateTime      @updatedAt
+  instituicao   String?
+  periodo       String?
+
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
 
   // Relacionamentos
   consultas  Consulta[]
   relatorios Relatorio[]
   documentos Documento[]
+  notas      Nota[]
 }
 
+/**
+ * ===========================================================
+ * NOTAS
+ * ===========================================================
+ */
+model Nota {
+  id       Int    @id @default(autoincrement())
+  titulo   String
+  conteudo String @db.Text
+
+  pasta       PastaNota? // "GERAL", "SELECIONADO", etc.
+  favorito    Boolean    @default(false)
+  selecionado Boolean    @default(false)
+
+  tipo         TipoNota @default(NORMAL)
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  ultimoUsoEm DateTime @default(now())
+
+  // Relação com o usuário
+  usuarioId Int
+  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+
+  // Relação com template (se for um template inteligente)
+  templateId Int?
+  template   Template? @relation(fields: [templateId], references: [id])
+
+  @@index([usuarioId])
+  @@index([favorito])
+  @@index([selecionado])
+  @@index([pasta])
+}
+
+/**
+ * ===========================================================
+ * TEMPLATES (NOTAS INTELIGENTES)
+ * ===========================================================
+ */
+model Template {
+  id        Int     @id @default(autoincrement())
+  nome      String
+  descricao String?
+  conteudo  String  @db.Text
+
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  notas Nota[]
+}
+
+/**
+ * ===========================================================
+ * PACIENTES
+ * ===========================================================
+ */
 model Paciente {
   id       Int      @id @default(autoincrement())
   nome     String
   cpf      String?  @unique
   email    String?
   telefone String?
-  status   String? // Ex: Estável, Atenção, Crítico
+  status   String?
   criadoEm DateTime @default(now())
 
-  // Relacionamentos
   consultas  Consulta[]
   relatorios Relatorio[]
 }
 
+/**
+ * ===========================================================
+ * CONSULTAS
+ * ===========================================================
+ */
 model Consulta {
   id          Int      @id @default(autoincrement())
   data        DateTime
@@ -50,14 +117,18 @@ model Consulta {
   observacoes String?
   criadoEm    DateTime @default(now())
 
-  // Relacionamentos
   pacienteId Int
   paciente   Paciente @relation(fields: [pacienteId], references: [id])
 
-  usuarioId Int // Médico responsável
+  usuarioId Int
   usuario   Usuario @relation(fields: [usuarioId], references: [id])
 }
 
+/**
+ * ===========================================================
+ * RELATÓRIOS MÉDICOS
+ * ===========================================================
+ */
 model Relatorio {
   id       Int      @id @default(autoincrement())
   laudo    String   @db.Text
@@ -72,37 +143,59 @@ model Relatorio {
   medicamentos MedicamentoPrescrito[]
 }
 
+/**
+ * ===========================================================
+ * MEDICAMENTOS
+ * ===========================================================
+ */
 model Medicamento {
   id         Int      @id @default(autoincrement())
   nome       String
   descricao  String?
-  dosePadrao String? // ex: "500mg"
+  dosePadrao String?
   criadoEm   DateTime @default(now())
 
   medicamentosPrescritos MedicamentoPrescrito[]
 }
 
+/**
+ * ===========================================================
+ * MEDICAMENTOS PRESCRITOS
+ * ===========================================================
+ */
 model MedicamentoPrescrito {
-  id            Int          @id @default(autoincrement())
-  nome          String
-  dose          String
-  horarios      String
-  relatorioId   Int
-  relatorio     Relatorio    @relation(fields: [relatorioId], references: [id])
-  medicamento   Medicamento? @relation(fields: [medicamentoId], references: [id])
+  id       Int    @id @default(autoincrement())
+  nome     String
+  dose     String
+  horarios String
+
+  relatorioId Int
+  relatorio   Relatorio @relation(fields: [relatorioId], references: [id])
+
   medicamentoId Int?
+  medicamento   Medicamento? @relation(fields: [medicamentoId], references: [id])
 }
 
+/**
+ * ===========================================================
+ * DOCUMENTOS DE VALIDAÇÃO
+ * ===========================================================
+ */
 model Documento {
   id        Int      @id @default(autoincrement())
   usuarioId Int
   usuario   Usuario  @relation(fields: [usuarioId], references: [id])
-  tipo      String // Ex: "Comprovante de Matrícula", "CRM"
+  tipo      String
   url       String
   status    String   @default("EM_ANALISE")
   enviadoEm DateTime @default(now())
 }
 
+/**
+ * ===========================================================
+ * ENUMS
+ * ===========================================================
+ */
 enum TipoUsuario {
   MEDICO
   ACADEMICO
@@ -113,4 +206,18 @@ enum StatusUsuario {
   PENDENTE
   VERIFICADO
   RECUSADO
+}
+
+enum TipoNota {
+  NORMAL
+  TEMPLATE
+}
+
+enum PastaNota {
+  GERAL
+  MINHAS
+  FAVORITOS
+  SELECIONADO
+  RECENTES
+  TEMPLATES
 }
