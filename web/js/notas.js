@@ -1,391 +1,465 @@
-// ===============================
-// 🔐 VALIDAR LOGIN
-// ===============================
-const usuario = JSON.parse(localStorage.getItem("usuarioCadastrado"));
+// ../js/notas.js
 
-if (!usuario) {
-    alert("Sessão expirada. Faça login novamente.");
-    window.location.href = "login.html";
-}
-
-const usuarioId = usuario.id;
-const BASE = "http://localhost:3000/api/notas";
-
-// ===============================
-// ELEMENTOS DO DOM
-// ===============================
-const secLista = document.getElementById("listaNotas");
-const secNova = document.getElementById("novaNota");
-const secBuscar = document.getElementById("buscarNota");
-const secGerenciar = document.getElementById("gerenciar");
-
-const tituloLista = document.getElementById("tituloLista");
-const containerNotas = document.getElementById("containerNotas");
-
-const tituloNova = document.getElementById("tituloNova");
-const tituloNovaNota = document.getElementById("tituloNovaNota");
-const btnSalvarNota = document.getElementById("btnSalvarNota");
-
-const inputBusca = document.getElementById("inputBusca");
-const resultadoBusca = document.getElementById("resultadoBusca");
-
-// menus
-const menuTodas = document.getElementById("menuTodas");
-const menuNova = document.getElementById("menuNova");
-const menuBuscar = document.getElementById("menuBuscar");
-const menuTemplates = document.getElementById("menuTemplates");
-const menuGeral = document.getElementById("menuGeral");
-const menuSelecionado = document.getElementById("menuSelecionado");
-const menuFavoritos = document.getElementById("menuFavoritos");
-const menuRecentes = document.getElementById("menuRecentes");
-const menuMinhas = document.getElementById("menuMinhas");
-const menuGerenciar = document.getElementById("menuGerenciar");
-
-const todosMenus = document.querySelectorAll(".sidebar-notas li");
-const todasSecoes = document.querySelectorAll(".notas-section");
-
-// controle de estado
-let filtroAtual = "todas";
-let notaEmEdicaoId = null;
-
-// ===============================
-// FUNÇÕES DE UI
-// ===============================
-function ativarMenu(menu) {
-    todosMenus.forEach(li => li.classList.remove("active"));
-    menu.classList.add("active");
-}
-
-function mostrarSecao(idSecao) {
-    todasSecoes.forEach(sec => sec.classList.remove("active"));
-    document.getElementById(idSecao).classList.add("active");
-}
-
-// ===============================
-// CARREGAR NOTAS (LISTA PRINCIPAL)
-// ===============================
-async function carregarNotas(tipo = "todas") {
-    filtroAtual = tipo;
-
-    let url = "";
-    let titulo = "";
-
-    switch (tipo) {
-        case "todas":
-            url = `${BASE}/${usuarioId}`;
-            titulo = "📄 Todas as Notas";
-            break;
-
-        case "favoritos":
-            url = `${BASE}/favoritos/${usuarioId}`;
-            titulo = "⭐ Favoritos";
-            break;
-
-        case "recentes":
-            url = `${BASE}/recentes/${usuarioId}`;
-            titulo = "🕓 Usados Recentemente";
-            break;
-
-        case "templates":
-            url = `${BASE}/templates/${usuarioId}`;
-            titulo = "✨ Templates Inteligentes";
-            break;
-
-        case "selecionado":
-            url = `${BASE}/selecionado/${usuarioId}`;
-            titulo = "✔ Selecionado";
-            break;
-
-        case "geral":
-        case "minhas":
-            // pega tudo e filtra por pasta GERAL
-            url = `${BASE}/${usuarioId}`;
-            titulo = tipo === "geral" ? "📁 Geral" : "📂 Minhas Notas";
-            break;
-
-        case "gerenciar":
-            url = `${BASE}/${usuarioId}`;
-            titulo = "⚙ Gerenciar Notas";
-            break;
-
-        default:
-            url = `${BASE}/${usuarioId}`;
-            titulo = "📄 Notas";
-            break;
-    }
-
-    try {
-        const res = await fetch(url);
-        let notas = await res.json();
-
-        if (tipo === "geral" || tipo === "minhas") {
-            notas = notas.filter(n => (n.pasta || "GERAL").toUpperCase() === "GERAL");
-        }
-
-        tituloLista.textContent = titulo;
-        mostrarSecao("listaNotas");
-        renderNotas(notas);
-    } catch (err) {
-        console.error(err);
-        containerNotas.innerHTML = `<p class="text-muted">Erro ao carregar notas.</p>`;
-    }
-}
-
-// ===============================
-// RENDERIZAR LISTA
-// ===============================
-function renderNotas(notas) {
-    containerNotas.innerHTML = "";
-
-    if (!notas || notas.length === 0) {
-        containerNotas.innerHTML = `<p class="text-muted">Nenhuma nota encontrada.</p>`;
+document.addEventListener("DOMContentLoaded", () => {
+    // ===============================
+    // LOGIN
+    // ===============================
+    const usuario = JSON.parse(localStorage.getItem("usuarioCadastrado"));
+    if (!usuario) {
+        alert("Sessão expirada. Faça login novamente.");
+        location.href = "login.html";
         return;
     }
 
-    notas.forEach(nota => {
-        const div = document.createElement("div");
-        div.classList.add("nota-item");
+    const usuarioId = usuario.id;
+    const BASE = "http://localhost:3000/api/notas";
 
-        div.innerHTML = `
-            <div class="nota-header">
-                <h4>${nota.titulo}</h4>
-                <span class="data">${formatarData(nota.criadoEm)}</span>
-            </div>
-            <p class="preview">
-                ${nota.conteudo ? nota.conteudo.substring(0, 180) : ""}...
-            </p>
-            <div class="nota-acoes">
-                <button class="btn-acao" onclick="abrirNota(${nota.id})" title="Editar">📝</button>
-                <button class="btn-acao" onclick="toggleFavorito(${nota.id})" title="Favorito">
-                    ${nota.favorito ? "⭐" : "☆"}
-                </button>
-                <button class="btn-acao" onclick="toggleSelecionado(${nota.id})" title="Selecionar">✔</button>
-                <button class="btn-acao btn-delete" onclick="excluirNota(${nota.id})" title="Excluir">🗑</button>
-            </div>
-        `;
+    // ===============================
+    // ELEMENTOS
+    // ===============================
+    const tituloPagina = document.getElementById("tituloPagina");
 
-        containerNotas.appendChild(div);
+    const todasSecoes = document.querySelectorAll(".notas-section");
+    const secNova = document.getElementById("novaNota");
+
+    const containerNotas = document.getElementById("containerNotas");
+    const containerGeral = document.getElementById("containerGeral");
+    const containerSelecionado = document.getElementById("containerSelecionado");
+    const containerFavoritos = document.getElementById("containerFavoritos");
+    const containerRecentes = document.getElementById("containerRecentes");
+    const containerMinhas = document.getElementById("containerMinhas");
+    const containerGerenciar = document.getElementById("containerGerenciar");
+
+    const tituloNova = document.getElementById("tituloNova");
+    const tituloNovaNota = document.getElementById("tituloNovaNota");
+    const contador = document.getElementById("contador");
+    const inputBusca = document.getElementById("inputBusca");
+    const resultadoBusca = document.getElementById("resultadoBusca");
+
+    const btnSalvarNota = document.getElementById("btnSalvarNota");
+    const btnNovaNotaRapida = document.getElementById("btnNovaNotaRapida");
+    const btnExportarPDF = document.getElementById("btnExportarPDF");
+
+    const menus = {
+        todas: document.getElementById("menuTodas"),
+        nova: document.getElementById("menuNova"),
+        buscar: document.getElementById("menuBuscar"),
+        templates: document.getElementById("menuTemplates"),
+        geral: document.getElementById("menuGeral"),
+        selecionado: document.getElementById("menuSelecionado"),
+        favoritos: document.getElementById("menuFavoritos"),
+        recentes: document.getElementById("menuRecentes"),
+        minhas: document.getElementById("menuMinhas"),
+        gerenciar: document.getElementById("menuGerenciar")
+    };
+
+    // ===============================
+    // ESTADO
+    // ===============================
+    let notaEmEdicaoId = null;
+    let filtroAtual = "todas";
+
+    // ===============================
+    // EDITOR QUILL
+    // ===============================
+    const editor = new Quill("#editor", {
+        theme: "snow",
+        placeholder: "Escreva sua nota aqui...",
+        modules: { toolbar: "#toolbar" }
     });
-}
+    window.editor = editor;
 
-// ===============================
-// ABRIR / EDITAR NOTA NA MESMA PÁGINA
-// ===============================
-window.abrirNota = async function (id) {
-    try {
-        const res = await fetch(`${BASE}/item/${id}`);
-        const nota = await res.json();
+    editor.on("text-change", () => {
+        const texto = editor.getText().trim();
+        const palavras = texto ? texto.split(/\s+/).filter(Boolean).length : 0;
+        contador.textContent = `${palavras} palavras • ${texto.length} caracteres`;
+    });
 
-        notaEmEdicaoId = nota.id;
-        tituloNova.textContent = "✏️ Editar Nota";
-        tituloNovaNota.value = nota.titulo;
-        conteudoNovaNota.value = nota.conteudo || "";
-
-        ativarMenu(menuNova);
-        mostrarSecao("novaNota");
-    } catch (err) {
-        console.error(err);
-        alert("Erro ao abrir nota.");
-    }
-};
-
-// ===============================
-// SALVAR (CRIAR OU EDITAR)
-// ===============================
-async function salvarNota() {
-    const titulo = (tituloNovaNota.value || "").trim() || "Nota sem título";
-
-    // AGORA BUSCA O CONTEÚDO CORRETO DO EDITOR QUILL
-    const conteudo = editor.root.innerHTML.trim();
-    const conteudoTexto = editor.getText().trim();
-
-    if (!conteudoTexto) {
-        alert("Digite o conteúdo da nota.");
-        return;
+    // ===============================
+    // UI HELPERS
+    // ===============================
+    function ativarMenu(nome) {
+        Object.values(menus).forEach(el => el && el.classList.remove("active"));
+        if (menus[nome]) menus[nome].classList.add("active");
     }
 
-    try {
-        if (!notaEmEdicaoId) {
-            // criar nova nota
-            await fetch(BASE, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    usuarioId,
-                    titulo,
-                    conteudo,
-                    pasta: "GERAL",
-                    tipo: "NORMAL"
-                })
-            });
-        } else {
-            // atualizar nota existente
-            await fetch(`${BASE}/${notaEmEdicaoId}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    titulo,
-                    conteudo,
-                    pasta: "GERAL"
-                })
-            });
+    function mostrarSecao(id) {
+        todasSecoes.forEach(sec => sec.classList.remove("active"));
+        const alvo = document.getElementById(id);
+        if (alvo) alvo.classList.add("active");
+    }
+
+    function limparContainers() {
+        [
+            containerNotas,
+            containerGeral,
+            containerSelecionado,
+            containerFavoritos,
+            containerRecentes,
+            containerMinhas,
+            containerGerenciar
+        ].forEach(c => c && (c.innerHTML = ""));
+    }
+
+    function containerPorTipo(tipo) {
+        switch (tipo) {
+            case "geral": return containerGeral;
+            case "selecionado": return containerSelecionado;
+            case "favoritos": return containerFavoritos;
+            case "recentes": return containerRecentes;
+            case "minhas": return containerMinhas;
+            case "gerenciar": return containerGerenciar;
+            default: return containerNotas;
+        }
+    }
+
+    function secaoPorTipo(tipo) {
+        switch (tipo) {
+            case "geral": return "geral";
+            case "selecionado": return "selecionado";
+            case "favoritos": return "favoritos";
+            case "recentes": return "recentes";
+            case "minhas": return "minhas";
+            case "gerenciar": return "gerenciar";
+            default: return "listaNotas";
+        }
+    }
+
+    function tituloPorTipo(tipo) {
+        switch (tipo) {
+            case "geral": return "Geral";
+            case "selecionado": return "Selecionado";
+            case "favoritos": return "Favoritos";
+            case "recentes": return "Usados Recentemente";
+            case "minhas": return "Minhas Notas";
+            case "gerenciar": return "Gerenciar Notas";
+            default: return "Todas as Notas";
+        }
+    }
+
+    function stripHtml(html) {
+        if (!html) return "";
+        const tmp = document.createElement("div");
+        tmp.innerHTML = html;
+        return tmp.textContent || tmp.innerText || "";
+    }
+
+    // ===============================
+    // CARREGAR NOTAS
+    // ===============================
+    async function carregarNotas(tipo = "todas") {
+        filtroAtual = tipo;
+
+        let url = `${BASE}/${usuarioId}`;
+        if (tipo !== "todas") url = `${BASE}/${tipo}/${usuarioId}`;
+
+        try {
+            const resp = await fetch(url);
+            if (!resp.ok) throw new Error("Erro ao carregar notas");
+
+            const notas = await resp.json();
+            limparContainers();
+
+            const container = containerPorTipo(tipo);
+            renderNotas(notas, container);
+
+            const secao = secaoPorTipo(tipo);
+            mostrarSecao(secao);
+
+            const titulo = tituloPorTipo(tipo);
+            tituloPagina.textContent = titulo;
+            const h2 = document.querySelector(`#${secao} h2`);
+            if (h2) h2.textContent = (tipo === "todas" ? "📄 " : "📁 ") + titulo;
+        } catch (e) {
+            console.error(e);
+            const container = containerPorTipo(tipo);
+            container.innerHTML = `<p class="text-muted">Não foi possível carregar as notas.</p>`;
         }
 
-        // reset do editor
-        notaEmEdicaoId = null;
-        tituloNova.textContent = "➕ Nova Nota";
-        tituloNovaNota.value = "";
-        editor.root.innerHTML = "";
-
-        ativarMenu(menuTodas);
-        await carregarNotas("todas");
-
-    } catch (err) {
-        console.error(err);
-        alert("Erro ao salvar nota.");
-    }
-}
-
-
-btnSalvarNota.addEventListener("click", salvarNota);
-
-// ===============================
-// FAVORITO / SELECIONADO / EXCLUIR
-// ===============================
-window.toggleFavorito = async function (id) {
-    await fetch(`${BASE}/favorito/${id}`, { method: "PATCH" });
-    carregarNotas(filtroAtual);
-};
-
-window.toggleSelecionado = async function (id) {
-    await fetch(`${BASE}/selecionado/${id}`, { method: "PATCH" });
-    carregarNotas(filtroAtual);
-};
-
-window.excluirNota = async function (id) {
-    if (!confirm("Deseja realmente excluir esta nota?")) return;
-    await fetch(`${BASE}/${id}`, { method: "DELETE" });
-    carregarNotas(filtroAtual);
-};
-
-// ===============================
-// BUSCA (SEÇÃO ENCONTRAR NOTA)
-// ===============================
-inputBusca.addEventListener("input", async () => {
-    const q = inputBusca.value.trim();
-
-    if (q === "") {
-        resultadoBusca.innerHTML = `<p class="text-muted">Digite para buscar.</p>`;
-        return;
+        ativarMenu(tipo);
     }
 
-    try {
-        const res = await fetch(`${BASE}/buscar/${usuarioId}?q=${encodeURIComponent(q)}`);
-        const notas = await res.json();
+    // ===============================
+    // RENDER NOTAS
+    // ===============================
+    function renderNotas(lista, container) {
+        if (!container) return;
 
-        resultadoBusca.innerHTML = "";
-
-        if (!notas || notas.length === 0) {
-            resultadoBusca.innerHTML = `<p class="text-muted">Nenhuma nota encontrada para "${q}".</p>`;
+        if (!lista || lista.length === 0) {
+            container.innerHTML = `<p class="text-muted">Nenhuma nota encontrada.</p>`;
             return;
         }
 
-        notas.forEach(nota => {
-            const div = document.createElement("div");
-            div.classList.add("nota-item");
+        lista.forEach(nota => {
+            const card = document.createElement("article");
+            card.className = "nota-item";
 
-            div.innerHTML = `
-                <div class="nota-header">
-                    <h4>${nota.titulo}</h4>
-                    <span class="data">${formatarData(nota.criadoEm)}</span>
-                </div>
-                <p class="preview">
-                    ${nota.conteudo ? nota.conteudo.substring(0, 150) : ""}...
-                </p>
+            const textoLimpo = stripHtml(nota.conteudo).replace(/\s+/g, " ").trim();
+            const preview = textoLimpo.length > 220
+                ? textoLimpo.substring(0, 220) + "..."
+                : textoLimpo || "Sem conteúdo pré-visualizável.";
+
+            card.innerHTML = `
+                <header class="nota-header">
+                    <div class="nota-header-main">
+                        <h4>${nota.titulo || "Nota sem título"}</h4>
+                        <span class="nota-meta">${formatarData(nota.criadoEm)}</span>
+                    </div>
+                    <div class="nota-badges">
+                        ${nota.pasta ? `<span class="badge">${nota.pasta}</span>` : ""}
+                        ${nota.tipo ? `<span class="badge badge-outline">${nota.tipo}</span>` : ""}
+                    </div>
+                </header>
+
+                <p class="preview">${preview}</p>
+
                 <div class="nota-acoes">
-                    <button class="btn-acao" onclick="abrirNota(${nota.id})">📝 Abrir</button>
+                    <button class="btn-acao" data-acao="editar" data-id="${nota.id}">
+                        <i class="fa-solid fa-pen-to-square"></i> Editar
+                    </button>
+                    <button class="btn-acao" data-acao="favorito" data-id="${nota.id}">
+                        ${nota.favorito ? "⭐ Favorito" : "☆ Favoritar"}
+                    </button>
+                    <button class="btn-acao" data-acao="selecionar" data-id="${nota.id}">
+                        <i class="fa-solid fa-check"></i> Selecionar
+                    </button>
+                    <button class="btn-acao btn-delete" data-acao="excluir" data-id="${nota.id}">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
                 </div>
             `;
 
-            resultadoBusca.appendChild(div);
+            container.appendChild(card);
         });
-    } catch (err) {
-        console.error(err);
-        resultadoBusca.innerHTML = `<p class="text-muted">Erro na busca.</p>`;
-    }
-});
 
-// ===============================
-// MENU – EVENTOS
-// ===============================
-menuTodas.addEventListener("click", () => {
-    ativarMenu(menuTodas);
+        // Delegação de eventos para ações dos botões (mais leve)
+        container.onclick = async (e) => {
+            const btn = e.target.closest("button[data-acao]");
+            if (!btn) return;
+
+            const acao = btn.dataset.acao;
+            const id = Number(btn.dataset.id);
+
+            if (acao === "editar") abrirNota(id);
+            if (acao === "favorito") toggleFavorito(id);
+            if (acao === "selecionar") toggleSelecionado(id);
+            if (acao === "excluir") excluirNota(id);
+        };
+    }
+
+    // ===============================
+    // ABRIR / EDITAR
+    // ===============================
+    async function abrirNota(id) {
+        try {
+            const resp = await fetch(`${BASE}/item/${id}`);
+            if (!resp.ok) throw new Error("Erro ao carregar nota");
+            const nota = await resp.json();
+
+            notaEmEdicaoId = nota.id;
+            tituloNova.textContent = "✏️ Editar Nota";
+            tituloNovaNota.value = nota.titulo || "";
+            editor.root.innerHTML = nota.conteudo || "";
+
+            ativarMenu("nova");
+            mostrarSecao("novaNota");
+            tituloPagina.textContent = "Editar Nota";
+
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        } catch (e) {
+            console.error(e);
+            alert("Não foi possível abrir a nota.");
+        }
+    }
+    window.abrirNota = abrirNota; // se precisar via HTML
+
+    // ===============================
+    // SALVAR
+    // ===============================
+    async function salvarNota() {
+        const titulo = (tituloNovaNota.value || "").trim() || "Nota sem título";
+        const conteudo = editor.root.innerHTML.trim();
+
+        if (!editor.getText().trim().length) {
+            alert("Não é possível salvar uma nota vazia.");
+            return;
+        }
+
+        const payload = {
+            usuarioId,
+            titulo,
+            conteudo,
+            pasta: "GERAL",
+            tipo: "NORMAL"
+        };
+
+        const url = notaEmEdicaoId ? `${BASE}/${notaEmEdicaoId}` : BASE;
+        const method = notaEmEdicaoId ? "PUT" : "POST";
+
+        try {
+            const resp = await fetch(url, {
+                method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            if (!resp.ok) throw new Error("Erro ao salvar nota");
+
+            notaEmEdicaoId = null;
+            tituloNova.textContent = "➕ Nova Nota";
+            tituloNovaNota.value = "";
+            editor.root.innerHTML = "";
+            contador.textContent = "0 palavras • 0 caracteres";
+
+            await carregarNotas("todas");
+        } catch (e) {
+            console.error(e);
+            alert("Não foi possível salvar a nota.");
+        }
+    }
+
+    btnSalvarNota.addEventListener("click", salvarNota);
+
+    // CTRL+S
+    document.addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+            e.preventDefault();
+            if (secNova.classList.contains("active")) salvarNota();
+        }
+    });
+
+    // ===============================
+    // AÇÕES SIMPLES (favorito/selecionado/excluir)
+    // ===============================
+    async function toggleFavorito(id) {
+        try {
+            await fetch(`${BASE}/favorito/${id}`, { method: "PATCH" });
+            carregarNotas(filtroAtual);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function toggleSelecionado(id) {
+        try {
+            await fetch(`${BASE}/selecionado/${id}`, { method: "PATCH" });
+            carregarNotas(filtroAtual);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function excluirNota(id) {
+        if (!confirm("Tem certeza que deseja excluir esta nota?")) return;
+        try {
+            await fetch(`${BASE}/${id}`, { method: "DELETE" });
+            carregarNotas(filtroAtual);
+        } catch (e) {
+            console.error(e);
+            alert("Não foi possível excluir a nota.");
+        }
+    }
+
+    window.toggleFavorito = toggleFavorito;
+    window.toggleSelecionado = toggleSelecionado;
+    window.excluirNota = excluirNota;
+
+    // ===============================
+    // BUSCA
+    // ===============================
+    inputBusca?.addEventListener("input", async () => {
+        const q = inputBusca.value.trim();
+
+        if (!q) {
+            resultadoBusca.innerHTML = `<p class="text-muted">Digite para buscar em suas notas.</p>`;
+            return;
+        }
+
+        try {
+            const resp = await fetch(`${BASE}/buscar/${usuarioId}?q=${encodeURIComponent(q)}`);
+            if (!resp.ok) throw new Error("Erro ao buscar");
+            const notas = await resp.json();
+
+            resultadoBusca.innerHTML = "";
+            renderNotas(notas, resultadoBusca);
+        } catch (e) {
+            console.error(e);
+            resultadoBusca.innerHTML = `<p class="text-muted">Não foi possível realizar a busca.</p>`;
+        }
+    });
+
+    // ===============================
+    // EXPORTAR PDF
+    // ===============================
+    btnExportarPDF?.addEventListener("click", () => {
+        const titulo = (tituloNovaNota.value || "Nota sem título").trim();
+        const conteudoHTML = editor.root.innerHTML;
+
+        const wrapper = document.createElement("div");
+        wrapper.innerHTML = `
+            <h1 style="font-size:22px; margin-bottom:12px;">${titulo}</h1>
+            <p style="font-size:12px; color:#444; margin-bottom:20px;">
+                Exportado em ${new Date().toLocaleString("pt-BR")}
+            </p>
+            <div style="font-size:14px; line-height:1.6;">${conteudoHTML}</div>
+        `;
+
+        const opt = {
+            margin: 12,
+            filename: `${titulo}.pdf`,
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+        };
+
+        html2pdf().set(opt).from(wrapper).save();
+    });
+
+    // ===============================
+    // MENU / NAVEGAÇÃO
+    // ===============================
+    menus.todas.onclick = () => carregarNotas("todas");
+    menus.nova.onclick = () => {
+        ativarMenu("nova");
+        mostrarSecao("novaNota");
+        tituloPagina.textContent = "Nova Nota";
+    };
+    menus.buscar.onclick = () => {
+        ativarMenu("buscar");
+        mostrarSecao("buscarNota");
+        tituloPagina.textContent = "Buscar Nota";
+        inputBusca?.focus();
+    };
+    menus.templates.onclick = () => {
+        ativarMenu("templates");
+        mostrarSecao("templates");
+        tituloPagina.textContent = "Templates Inteligentes";
+    };
+    menus.geral.onclick = () => carregarNotas("geral");
+    menus.selecionado.onclick = () => carregarNotas("selecionado");
+    menus.favoritos.onclick = () => carregarNotas("favoritos");
+    menus.recentes.onclick = () => carregarNotas("recentes");
+    menus.minhas.onclick = () => carregarNotas("minhas");
+    menus.gerenciar.onclick = () => carregarNotas("gerenciar");
+
+    btnNovaNotaRapida?.addEventListener("click", () => {
+        menus.nova.click();
+    });
+
+    // ===============================
+    // DATA
+    // ===============================
+    function formatarData(dataISO) {
+        if (!dataISO) return "";
+        const d = new Date(dataISO);
+        if (Number.isNaN(d.getTime())) return "";
+        return (
+            d.toLocaleDateString("pt-BR") +
+            " · " +
+            d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })
+        );
+    }
+
+    // ===============================
+    // INÍCIO
+    // ===============================
     carregarNotas("todas");
 });
-
-menuNova.addEventListener("click", () => {
-    ativarMenu(menuNova);
-    notaEmEdicaoId = null;
-    tituloNova.textContent = "➕ Nova Nota";
-    tituloNovaNota.value = "";
-    conteudoNovaNota.value = "";
-    mostrarSecao("novaNota");
-});
-
-menuBuscar.addEventListener("click", () => {
-    ativarMenu(menuBuscar);
-    mostrarSecao("buscarNota");
-    inputBusca.focus();
-});
-
-menuTemplates.addEventListener("click", () => {
-    ativarMenu(menuTemplates);
-    carregarNotas("templates");
-});
-
-menuGeral.addEventListener("click", () => {
-    ativarMenu(menuGeral);
-    carregarNotas("geral");
-});
-
-menuSelecionado.addEventListener("click", () => {
-    ativarMenu(menuSelecionado);
-    carregarNotas("selecionado");
-});
-
-menuFavoritos.addEventListener("click", () => {
-    ativarMenu(menuFavoritos);
-    carregarNotas("favoritos");
-});
-
-menuRecentes.addEventListener("click", () => {
-    ativarMenu(menuRecentes);
-    carregarNotas("recentes");
-});
-
-menuMinhas.addEventListener("click", () => {
-    ativarMenu(menuMinhas);
-    carregarNotas("minhas");
-});
-
-menuGerenciar.addEventListener("click", () => {
-    ativarMenu(menuGerenciar);
-    carregarNotas("gerenciar");
-});
-
-// ===============================
-// UTIL: FORMATAR DATA
-// ===============================
-function formatarData(dataISO) {
-    const d = new Date(dataISO);
-    if (Number.isNaN(d.getTime())) return "";
-    return d.toLocaleDateString("pt-BR") + " " + d.toLocaleTimeString("pt-BR", {
-        hour: "2-digit",
-        minute: "2-digit"
-    });
-}
-
-// ===============================
-// INICIAL
-// ===============================
-carregarNotas("todas");

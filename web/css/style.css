@@ -797,3 +797,30 @@ select.auth-input {
 .btn-editar-tempo:hover {
     background: #004fc2;
 }
+
+.list-notas-home {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.list-notas-home li {
+    padding: 6px 0;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    color: #374151;
+    border-bottom: 1px solid #f0f0f0;
+    transition: 0.2s;
+}
+
+.list-notas-home li:hover {
+    color: #1d4ed8;
+    transform: translateX(3px);
+}
+
+.list-notas-home small {
+    color: #9ca3af;
+    font-size: 12px;
+}

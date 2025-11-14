@@ -46,7 +46,6 @@
                 </div>
                 <div class="topbar-center">
                     <div id="cronometro" class="timer">⏱️ 30:00</div>
-                    <button id="editarTempo" class="btn-editar-tempo">⏱️ Editar</button>
                 </div>
                 <div class="topbar-right">
                     <div class="user-menu">
@@ -65,19 +64,19 @@
 
                 <!-- Cards da Home -->
                 <div class="dashboard-grid">
-                    <div class="card">
-                        <h3>⭐ Meus Favoritos</h3>
-                        <p>Acesse rapidamente seus relatórios, notas e receitas favoritas.</p>
-                    </div>
 
                     <div class="card">
-                        <h3>🕓 Últimos Utilizados</h3>
-                        <ul id="ultimosUsados">
-                            <li>Nota de Atendimento - João Silva</li>
-                            <li>Receituário - Maria Souza</li>
+                        <h3>⭐ Notas Favoritas</h3>
+                        <ul id="favoritasNotas" class="list-notas-home">
+                            <li class="text-muted">Carregando...</li>
                         </ul>
                     </div>
-
+                    <div class="card">
+                        <h3>📝 Últimas Notas</h3>
+                        <ul id="ultimasNotas" class="list-notas-home">
+                            <li class="text-muted">Carregando...</li>
+                        </ul>
+                    </div>
                     <div class="card">
                         <h3>💡 Sugestões Recentes</h3>
                         <ul>
@@ -92,6 +91,7 @@
                             <i class="fas fa-plus"></i> Criar Novo Documento
                         </button>
                     </div>
+
                 </div>
             </section>
         </main>

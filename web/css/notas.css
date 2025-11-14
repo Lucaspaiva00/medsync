@@ -1,229 +1,397 @@
-/* ================================
-   LAYOUT PRINCIPAL
-==================================*/
+/* ============================
+   BASE
+============================ */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 
+body {
+    margin: 0;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f4f5f7;
+    color: #111827;
+    overflow-x: hidden;
+}
+
+/* LAYOUT PRINCIPAL */
 .layout-notas {
     display: flex;
     height: 100vh;
-    background: #f5f6fa;
-    font-family: "Inter", sans-serif;
+    overflow: hidden;
 }
 
-/* ================================
+/* ============================
    SIDEBAR
-==================================*/
-
+============================ */
 .sidebar-notas {
     width: 260px;
     background: #ffffff;
-    border-right: 1px solid #e5e5e5;
-    padding: 25px 20px;
+    border-right: 1px solid #e5e7eb;
+    padding: 24px 18px;
 }
 
 .sidebar-notas h2 {
-    font-size: 20px;
-    color: #222;
-    font-weight: 600;
-    margin-bottom: 20px;
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    font-weight: 700;
 }
 
 .sidebar-notas ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .sidebar-notas li {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px 14px;
-    margin-bottom: 6px;
-    color: #444;
+    gap: 10px;
+    padding: 10px 12px;
+    margin-bottom: 4px;
+    border-radius: 10px;
     cursor: pointer;
+    color: #4b5563;
+    font-size: 14px;
+    transition: background 0.16s ease, transform 0.08s ease;
+}
+
+.sidebar-notas li i {
     font-size: 15px;
-    border-radius: 8px;
-    transition: all 0.2s ease;
 }
 
 .sidebar-notas li:hover {
-    background: #f0f2f5;
+    background: #eef2ff;
+    transform: translateX(3px);
 }
 
 .sidebar-notas li.active {
-    background: #dce8ff;
-    color: #1f5eff;
+    background: #e0ecff;
+    color: #1d4ed8;
     font-weight: 600;
 }
 
-/* ================================
-   CONTEÚDO
-==================================*/
-
-.conteudo-notas {
-    flex: 1;
-    padding: 30px 40px;
-    overflow-y: auto;
+.sidebar-back {
+    margin-bottom: 10px;
+    color: #1d4ed8;
+    font-weight: 600;
 }
 
-.notas-section h2 {
-    font-size: 22px;
-    color: #333;
-    margin-bottom: 25px;
+.sidebar-divider {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #9ca3af;
+    padding: 8px 4px 4px;
+}
+
+/* ============================
+   CONTEÚDO
+============================ */
+.conteudo-notas {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+.conteudo-wrapper {
+    width: 100%;
+    max-width: 960px;
+    padding: 26px 32px 32px;
+}
+
+/* TOP BAR */
+.topbar-notas {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 24px;
+}
+
+.topbar-left h1 {
+    margin: 0 0 4px 0;
+    font-size: 26px;
     font-weight: 700;
 }
 
-/* ================================
-   LISTA DE NOTAS
-==================================*/
+.topbar-sub {
+    font-size: 13px;
+    color: #6b7280;
+}
 
+/* BOTÕES */
+.btn-ghost,
+.btn-top,
+.btn-primary {
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.btn-ghost {
+    background: #ffffff;
+    border-color: #d1d5db;
+    color: #374151;
+}
+
+.btn-ghost:hover {
+    background: #f3f4f6;
+}
+
+.btn-top {
+    background: #ffffff;
+    border-color: #d1d5db;
+    color: #374151;
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+}
+
+/* ============================
+   SEÇÕES
+============================ */
+.notas-section {
+    display: none;
+}
+
+.notas-section.active {
+    display: block;
+}
+
+.titulo-secao {
+    margin: 0 0 12px 0;
+    font-size: 20px;
+}
+
+/* ============================
+   LISTA DE NOTAS
+============================ */
 .lista-notas {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 12px;
 }
 
+/* Card estilo Notion */
 .nota-item {
-    background: #fff;
+    background: #ffffff;
     border-radius: 12px;
-    padding: 18px 22px;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
-    border: 1px solid #e8e8e8;
-    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    padding: 14px 18px;
+    border: 1px solid #e5e7eb;
+    overflow-wrap: break-word;
 }
 
 .nota-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.09);
+    border-color: #d1d5db;
 }
 
+/* Cabeçalho */
 .nota-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 8px;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
 }
 
-.nota-header h4 {
-    font-size: 19px;
-    font-weight: 600;
-    color: #111;
-}
-
-.nota-header .data {
-    font-size: 13px;
-    color: #777;
-}
-
-.preview {
+.nota-header-main h4 {
+    margin: 0;
     font-size: 15px;
-    color: #444;
-    margin-bottom: 14px;
-    line-height: 1.4;
+    font-weight: 600;
 }
 
-/* ================================
-   AÇÕES DA NOTA
-==================================*/
+.nota-meta {
+    font-size: 12px;
+    color: #9ca3af;
+}
 
+/* Badges */
+.nota-badges {
+    display: flex;
+    gap: 6px;
+}
+
+.badge {
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.badge-outline {
+    background: #f9fafb;
+    border: 1px solid #d1d5db;
+    color: #4b5563;
+}
+
+/* Preview */
+.preview {
+    margin: 4px 0 10px;
+    font-size: 13px;
+    color: #4b5563;
+    line-height: 1.45;
+}
+
+/* Ações */
 .nota-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.btn-acao {
+    border-radius: 999px;
+    border: 1px solid #e5e7eb;
+    padding: 5px 10px;
+    font-size: 12px;
+    background: #f9fafb;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.btn-acao:hover {
+    background: #eef2ff;
+    border-color: #cbd5f5;
+}
+
+.btn-delete {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #b91c1c;
+}
+
+/* ============================
+   EDITOR
+============================ */
+.top-editor {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.editor-subtitle {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.editor-actions {
     display: flex;
     gap: 8px;
 }
 
-.btn-acao {
-    background: #f1f3f5;
-    border: none;
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 15px;
-    transition: all 0.15s ease;
-}
-
-.btn-acao:hover {
-    background: #e2e6ea;
-}
-
-.btn-delete {
-    background: #ffe5e5 !important;
-    color: #cc0000;
-}
-
-.btn-delete:hover {
-    background: #ffcfcf !important;
-}
-
-/* ================================
-   CRIAÇÃO / EDIÇÃO DE NOTA
-==================================*/
-
 .input-titulo {
     width: 100%;
-    padding: 14px;
-    font-size: 18px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-}
-
-.editor-nota {
-    width: 100%;
-    height: 420px;
-    padding: 14px;
+    padding: 12px 14px;
     border-radius: 10px;
-    border: 1px solid #ccc;
-    resize: vertical;
-    font-size: 16px;
-    line-height: 1.5;
+    border: 1px solid #d1d5db;
+    margin-bottom: 8px;
+    font-size: 15px;
 }
 
-.btn-salvar {
-    margin-top: 15px;
-    padding: 12px 22px;
-    background: #1f5eff;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background 0.15s ease;
+.input-titulo:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 1px #2563eb33;
 }
 
-.btn-salvar:hover {
-    background: #1548c7;
-}
-
-.top-editor {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.btn-top {
-    background: #1f5eff;
-    border: none;
-    padding: 10px 14px;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.btn-top:hover {
-    background: #1646c5;
+/* Quill */
+#toolbar {
+    border-radius: 10px 10px 0 0;
+    border: 1px solid #d1d5db;
+    border-bottom: none;
+    background: #f9fafb;
 }
 
 .editor-area {
     height: 420px;
-    background: white;
-    border-radius: 10px;
-    border: 1px solid #ccc;
+    border-radius: 0 0 10px 10px;
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+}
+
+.ql-container.ql-snow {
+    border: none !important;
+    border-radius: 0 0 10px 10px;
+    font-size: 14px;
+    overflow-wrap: break-word;
+}
+
+.ql-editor {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+}
+
+/* Contador */
+.contador-texto {
+    text-align: right;
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 6px;
+}
+
+/* ============================
+   BUSCA
+============================ */
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: #ffffff;
+    border-radius: 999px;
+    border: 1px solid #d1d5db;
+    max-width: 420px;
     margin-bottom: 12px;
 }
 
-.contador-texto {
-    text-align: right;
-    margin: 6px 4px;
+.search-box i {
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+.inputBusca {
+    border: none;
+    outline: none;
+    flex: 1;
+    background: transparent;
+    font-size: 14px;
+}
+
+/* TEXTO AUXILIAR */
+.text-muted {
     font-size: 13px;
-    color: #666;
+    color: #9ca3af;
+}
+
+/* SCROLL */
+.conteudo-notas::-webkit-scrollbar {
+    width: 8px;
+}
+
+.conteudo-notas::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 999px;
 }
